@@ -1,0 +1,122 @@
+@top-header-height: 56px;
+@bottom-height: 64px;
+@icon-height: 24px;
+.draw-container {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+}
+
+.top-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: @top-header-height;
+    background-color: @white;
+    box-shadow: 0 0 2px fade(@primary, 40);
+    z-index: 9;
+    padding: 0 16px;
+    box-sizing: border-box;
+    color: @primary;
+    .tips-right {
+        right: 16px;
+    }
+}
+
+.header-panel {
+    line-height: @top-header-height;
+}
+
+.view-container {
+    position: absolute;
+    top: @top-header-height;
+    bottom: @bottom-height + 1px;
+    left: 0;
+    right: 0;
+    background-color: @background-base;
+}
+.botton-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: @white;
+    height: @bottom-height;
+    box-shadow: 0 -1px 2px fade(@primary, 40);
+}
+.canvas-wrapper {
+    height: 100%;
+    background-color: @white;
+}
+.bottom-nav {
+    height: @bottom-height;
+    font-size: @font-size-sm;
+    color: @primary;
+    .ybnav-wrapper {
+        align-items: center;
+    }
+    .ybnav-item {
+        width: 60px;
+        text-align: center;
+    }
+}
+.nav-icon {
+    font-size: @icon-height - 2px;
+    height: @icon-height;
+    line-height: @icon-height;
+}
+.nav-name {
+    font-size: @font-size-md;
+}
+
+.canvas-view {
+    width: 100%;
+    height: 100%;
+}
+
+.edit-tips {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    text-align: center;
+    color: @text-regular;
+    padding-top: (100px / @baseFontSize);
+    font-size: 16px;
+}
+
+.preview-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100vw;
+    z-index: 999;
+    .preivew-body {
+        position: absolute;
+        top: 1px;
+        left: 2px;
+        right: 2px;
+        box-shadow: 0 0 6px fade(@primary, 20);
+        background-color: @white;
+        bottom: @bottom-height;
+        border-radius: 4px;
+    }
+    .preivew-footer {
+        position: absolute;
+        height: @bottom-height;
+        line-height: @bottom-height;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        background-color: fade(#000, 60);
+    }
+    .btn-close {
+        color: @white;
+        font-size: 32px;
+    }
+}
