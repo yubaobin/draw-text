@@ -1,6 +1,6 @@
 import { ConfigEnv, defineConfig, loadEnv, UserConfigExport } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import styleImport, { VantResolve } from 'vite-plugin-style-import'
+import styleImport from 'vite-plugin-style-import'
 import { resolve } from 'path'
 import { createProxy } from './build/vite/proxy'
 import { wrapperEnv } from './build/utils'
@@ -16,6 +16,7 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
 	const env = loadEnv(mode, root)
 	const viteEnv = wrapperEnv(env)
 	const { VITE_outputdir, VITE_publicpath, VITE_port, VITE_proxy, VITE_drop_console } = viteEnv
+	console.log('createProxy', viteEnv, createProxy(VITE_proxy))
 	return defineConfig({
 		base: VITE_publicpath,
 		root,
@@ -61,7 +62,13 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
 		plugins: [
 			vue(),
 			styleImport({
-				resolves: [VantResolve()]
+				resolves: [{
+					libraryName: 'vant',
+					esModule: true,
+					resolveStyle: (name) => {
+						return `/node_modules/vant/es/${name}/style`
+					}
+				}]
 			})
 		]
 	})

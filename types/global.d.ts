@@ -1,5 +1,5 @@
 import { ComponentPublicInstance, FunctionalComponent } from 'vue'
-
+import { Fetch } from './axios'
 declare global {
     declare type Recordable<T = any> = Record<string, T>;
     declare type ReadonlyRecordable<T = any> = {
@@ -22,6 +22,7 @@ declare global {
     interface Window {
         rem: number;
         dpr: number;
+        _CONFIG: any
     }
 }
 
@@ -29,4 +30,10 @@ declare module 'vue' {
     export type JSXComponent<Props = any> =
       | { new (): ComponentPublicInstance<Props> }
       | FunctionalComponent<Props>;
+}
+
+declare module '@vue/runtime-core' {
+    export interface ComponentCustomProperties {
+        $fetch: Fetch;
+    }
 }
