@@ -4,7 +4,8 @@ import { computed, reactive, readonly } from 'vue'
 const state: ICanvasState = reactive({
     strokeColor: '#000',
     savePath: [],
-    isOpr: false
+    isOpr: false,
+    text: ''
 })
 
 const action = {
@@ -16,6 +17,9 @@ const action = {
     },
     setIsOpr: (isOpr: boolean) => {
         state.isOpr = isOpr
+    },
+    setText: (text: string) => {
+        state.text = text
     },
     clearSavePath: () => {
         state.savePath = []
@@ -30,7 +34,8 @@ const action = {
 const getter = readonly({
     strokeColor: computed(() => state.strokeColor),
     savePath: computed(() => state.savePath),
-    isOpr: computed(() => state.isOpr)
+    isOpr: computed(() => state.isOpr),
+    text: computed(() => state.text)
 })
 
 export default {

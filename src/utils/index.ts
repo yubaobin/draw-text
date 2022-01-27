@@ -68,3 +68,24 @@ export function deleteNullByEquals (params: any) {
 		return result
 	}
 }
+
+/**
+ * 获取URL的query参数
+ * @param uri 地址
+ * @returns 参数对象
+ */
+ export const parseUrl = (uri?: string) => {
+	let url: string = uri || window.location.href
+	const i: number = url.indexOf('?')
+	const indexHash: number = url.indexOf('#')
+	if (i === -1) return {}
+	if (i < indexHash) url = url.slice(0, indexHash)
+	const querystr: string = url.substr(i + 1)
+	const arr1: Array<any> = querystr.split('&')
+	let arr2: any = {}
+	for (const key in arr1) {
+		const ta = arr1[key].split('=')
+		arr2[ta[0]] = ta[1]
+	}
+	return arr2
+}

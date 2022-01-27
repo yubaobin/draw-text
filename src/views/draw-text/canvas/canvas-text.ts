@@ -26,7 +26,7 @@ class CanvasText {
 
     eventBus: any = {}
     savePath: Array<Array<IPoint>> = []
-    strokeColor: string = '#000'
+    strokeColor: string = '#f0d294'
     isOpr: boolean = false
 
     // 动画
@@ -274,6 +274,21 @@ class CanvasText {
         return new Blob([ab], { type: 'image/jpg' })
     }
 
+    private _saveCanvas () {
+        if (this.context) {
+            this.context.save()
+        }
+    }
+    private _restoreCanvas () {
+        if (this.context) {
+            this.context.restore()
+        }
+    }
+
+    setStrokeColor (color: string) {
+        this.strokeColor = color
+    }
+
     /**
      * 重置画布大小
      * @param config CanvasSize
@@ -290,7 +305,10 @@ class CanvasText {
      */
     clearCanvas () {
         if (this.context) {
+            this.context.fillStyle = '#FF0000'
             this.context.clearRect(0, 0, this.canvasWidth, this.canvasHeight)
+            this.context.fillRect(0, 0, this.canvasWidth, this.canvasHeight)
+            this.context.fillStyle = ''
             this.savePath = []
             this.recordPath = []
             this.isOpr = false
@@ -342,15 +360,15 @@ class CanvasText {
         this.recordPath.push(curLoc)
     }
 
-    drawWithText (point: IPoint) {
+    drawWithText (point: IPoint, text?: string) {
         if (!this.context) return
         // 开始绘制直线  
         let curLoc = windowToCanvas(this.canvas, point.x, point.y)
         // 路程  
         let s = calcDistance(curLoc, this.lastLoc)
         this.lastLoc = curLoc
-        if (s > 5) {
-            this.context.fillText('完', curLoc.x, curLoc.y)
+        if (s > 8) {
+            this.context.fillText(text || '', curLoc.x, curLoc.y)
         }
     }
 
@@ -363,15 +381,23 @@ class CanvasText {
         let colLen: number = rowLen ? points[row].length : 0
         this.animRun = true
         const drawFun = text ? this.drawWithText.bind(this) : this.draw.bind(this)
+        if (this.context) {
+            this.context.fillStyle = this.strokeColor
+        }
+        this._saveCanvas()
+        if (this.context) {
+            this.context.font = '20px Georgia'
+        }
         function anim () {
             const curPoint = points[row][col]
-            drawFun(curPoint)
+            drawFun(curPoint, text)
             col++
             if (col > colLen - 1) { // 下一个笔划
                 row++
                 me._closePath()
                 if (row > rowLen - 1) { // 画完，结束
                     me.stop()
+                    me._restoreCanvas()
                 } else {
                     colLen = points[row].length
                     col = 0

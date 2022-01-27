@@ -1,6 +1,9 @@
 <template>
     <transition name="slide-in" @after-enter="handleEnter" @after-leave="handleLeave">
         <div class="preview-container" ref="previewRef" v-show="visible">
+            <div class="preview-header">
+                {{ tipsMessage }}
+            </div>
             <div class="preivew-body">
                 <canvas-view ref="canvasViewRef"/>
             </div>
@@ -13,9 +16,11 @@
     </transition>
 </template>
 <script lang="ts">
-import { defineComponent, nextTick, onBeforeUnmount, ref, Ref, watch } from 'vue'
+import { computed, defineComponent, nextTick, onBeforeUnmount, ref, Ref, unref, watch } from 'vue'
 import CanvasView from './canvas-view.vue'
-
+import { imageApi } from '@/api/images'
+import { Toast } from 'vant'
+import CanvasStore from './canvas/store'
 function stop (e: any) {
     e.stopPropagation()
 }
@@ -27,7 +32,9 @@ export default defineComponent({
     setup () {
         const previewRef: Ref<HTMLDivElement | null> = ref(null)
         const visible = ref(false)
-
+        const file: any = ref(null)
+        const text = ref('')
+        const tipsMessage = computed(() => '识别后的文字是：' + text.value)
         function createDialog () {
             nextTick(() => {
                 if (previewRef.value) {
@@ -36,6 +43,7 @@ export default defineComponent({
                 }
             })
         }
+
         onBeforeUnmount(() => {
             if (previewRef.value && previewRef.value.parentNode === document.body) {
                 previewRef.value.removeEventListener('click', stop)
@@ -51,7 +59,10 @@ export default defineComponent({
 
         return {
             previewRef,
-            visible
+            visible,
+            file,
+            text,
+            tipsMessage
         }
     },
     methods: {
@@ -64,16 +75,29 @@ export default defineComponent({
             })
         },
         handleEnter () {
-            this.$nextTick(() => {
-                const viewRef: any = this.$refs.canvasViewRef
-                viewRef.start()
+            const file = unref(this.file)
+            const formData = new FormData()
+            formData.append('file', file)
+            Toast({ duration: 0, type: 'loading', message: '文字识别中...' })
+            imageApi.analyze(formData).then(res => {
+                this.text = res.result ? res.result.slice(0, 1) : ''
+                Toast.clear()
+                this.$nextTick(() => {
+                    const viewRef: any = this.$refs.canvasViewRef
+                    viewRef.start({
+                        points: CanvasStore.getter.savePath,
+                        text: this.text
+                    })
+                })
             })
         },
         handleLeave () {
+            this.text = ''
             const viewRef: any = this.$refs.canvasViewRef
             viewRef.clearCanvas()
         },
-        open () {
+        open (file: File) {
+            this.file = file
             this.visible = true
 
         },

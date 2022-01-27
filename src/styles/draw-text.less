@@ -26,6 +26,10 @@
 
 .header-panel {
     line-height: @top-header-height;
+    .van-icon {
+        font-size: 20px;
+        vertical-align: middle;
+    }
 }
 
 .view-container {
@@ -83,7 +87,7 @@
     height: 100%;
     pointer-events: none;
     text-align: center;
-    color: @text-regular;
+    color: @white;
     padding-top: (100px / @baseFontSize);
     font-size: 16px;
 }
@@ -95,13 +99,29 @@
     height: 100%;
     width: 100vw;
     z-index: 999;
+    .preview-header {
+        position: absolute;
+        height: @top-header-height;
+        line-height: @top-header-height;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: @primary;
+        padding: 0 16px;
+        box-sizing: border-box;
+        color: @glod;
+        font-size: 16px;
+        .tips-right {
+            right: 16px;
+        }
+    }
     .preivew-body {
         position: absolute;
-        top: 1px;
+        top: @top-header-height;
         left: 2px;
         right: 2px;
         box-shadow: 0 0 6px fade(@primary, 20);
-        background-color: @white;
+        background-color: @primary;
         bottom: @bottom-height;
         border-radius: 4px;
     }
@@ -118,5 +138,11 @@
     .btn-close {
         color: @white;
         font-size: 32px;
+    }
+}
+
+.preview-page {
+    .preivew-body {
+        bottom: 0;
     }
 }

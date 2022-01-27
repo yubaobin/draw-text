@@ -2,10 +2,14 @@
     <div class="canvas-view" ref="canvasView"></div>
 </template>
 <script lang="ts" setup>
-import { IPoint } from 'types/canvas'
 import { onBeforeUnmount, onMounted, ref, Ref } from 'vue'
 import CanvasText from './canvas/canvas-text'
-import CanvasStore from './canvas/store'
+
+interface IStartConfig {
+    text?: string;
+    points: Array<any>
+}
+
 defineEmits(['click'])
 const canvasView: Ref<HTMLDivElement | null> = ref(null)
 
@@ -29,10 +33,11 @@ function resize () {
 }
 
 defineExpose({
-    start () {
+    start (config: IStartConfig) {
+        console.log(config)
         resize()
         drawText.clearCanvas()
-        drawText.start(CanvasStore.getter.savePath as Array<Array<IPoint>>)
+        drawText.start(config.points, config.text)
     },
     clearCanvas () {
         drawText.clearCanvas()

@@ -1,7 +1,6 @@
 <template>
     <div class="content-wrapper">
         <div class="draw-container">
-            <img class="preview" :src="imgRef" />
             <div class="top-container">
                 <header-panel @click="handleClick" />
             </div>
@@ -14,6 +13,7 @@
             </div>
         </div>
         <preview-model ref="previewRef"/>
+        <publish-model ref="publishModelRef"/>
     </div>
 </template>
 <script lang="ts" setup>
@@ -21,41 +21,36 @@ import HeaderPanel from './header-panel.vue'
 import CanvasEdit from './canvas-edit.vue'
 import ToolPanel from './tool-panel.vue'
 import PreviewModel from './preview-model.vue'
-import { computed, ref, unref } from 'vue'
+import PublishModel from './publish-model.vue'
+import { computed, Ref, ref, unref } from 'vue'
 import CanvasStore from './canvas/store'
 import { Toast } from 'vant'
-import { imageApi } from '@/api/images'
 
-const previewRef = ref(null)
-const canvasEditRef = ref(null)
-const imgRef = ref('')
+const previewRef: Ref<any> = ref(null)
+const publishModelRef: Ref<any> = ref(null)
+const canvasEditRef: Ref<any> = ref(null)
 
 function handleClick (type: string) {
     if (type === 'preview') {
         if (CanvasStore.getter.savePath.length) {
-            const ref: any = unref(previewRef)
-            if (ref) {
-                // ref.open()
-                const ref: any = unref(canvasEditRef)
-                if (ref) {
-                    imgRef.value = ref.getImage()
-                    const file = ref.getFile()
-                    const formData = new FormData()
-                    formData.append('file', file)
-                    imageApi.analyze(formData).then(res => {
-                        console.log('analyze', res)
-                    })
-                }
+            if (previewRef.value && canvasEditRef.value) {
+                previewRef.value.open(canvasEditRef.value.getFile())
             }
         } else {
-            Toast({
-                message: '画个半圆向下挥'
-            })
+            Toast({ message: '画个半圆向下挥' })
         }
     } else if (type === 'clear') {
         const ref: any = unref(canvasEditRef)
         if (ref) {
             ref.clearCanvas()
+        }
+    } else if (type === 'public') {
+        if (CanvasStore.getter.savePath.length) {
+            if (canvasEditRef.value) {
+                publishModelRef.value.open(canvasEditRef.value.getFile())
+            }
+        } else {
+            Toast({ message: '画个半圆向下挥' })
         }
     }
 }

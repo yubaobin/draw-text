@@ -7,3 +7,49 @@
         flex: 1;
     }
 }
+
+.error-view {
+    height: 100%;
+    background-color: @primary;
+    color: @glod;
+    .error-text {
+        padding-top: 120px;
+        text-align: center;
+    }
+    p {
+        font-size: 30px;
+    }
+    .d-text {
+        text-decoration: underline;
+        font-size: 24px;
+    }
+    .error-btn {
+        & + .error-btn {
+            margin-top: 24px;
+        }
+    }
+}
+
+.tips-container {
+    padding: 36px 16px;
+}
+
+.tips-container-v2 {
+    padding: 16px;
+}
+
+.tips-message {
+    color: @text-primary;
+    display: flex;
+    align-items: center;
+    .text {
+        font-size: 20px;
+        & + .icon-btn {
+            margin-left: 8px;
+        }
+    }
+    .icon-btn {
+        font-size: 24px;
+        color: @primary;
+    }
+}
