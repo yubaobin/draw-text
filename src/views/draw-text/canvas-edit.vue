@@ -43,6 +43,12 @@ defineExpose({
         drawText.clearCanvas()
         CanvasStore.action.setIsOpr(false)
         CanvasStore.action.setSavePath([])
+    },
+    getFile () {
+        return drawText.toFile()
+    },
+    getImage () {
+        return drawText.toImage()
     }
 })
 </script>

@@ -8,7 +8,13 @@ export interface IResponse<T> {
     message: string;
 }
 
-export type Method = ''
+/**
+ * 分页
+ */
+export interface PageQuery {
+    current: number;
+    size: number;
+}
 
 export interface IResPage {
     current: number;

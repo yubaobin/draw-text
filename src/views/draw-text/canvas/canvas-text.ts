@@ -33,10 +33,10 @@ class CanvasText {
     animTimer: any = null
     animRun: boolean = false
 
-     // 保存
+    // 保存
     recordPath: Array<IPoint> = []
 
-    constructor (wrapper:  HTMLElement | Element | null, config?: CanvasConfig) {
+    constructor (wrapper: HTMLElement | Element | null, config?: CanvasConfig) {
         if (config) {
             this.canvasWidth = config.width || 0
             this.canvasHeight = config.height || 0
@@ -45,7 +45,7 @@ class CanvasText {
         this._initCanvas(wrapper)
     }
 
-    private _initCanvas (wrapper:  HTMLElement | Element | null) {
+    private _initCanvas (wrapper: HTMLElement | Element | null) {
         if (wrapper) {
             if (wrapper instanceof HTMLCanvasElement) {
                 this.parentWrapper = null
@@ -263,6 +263,17 @@ class CanvasText {
         }
     }
 
+    private convertBase64UrlToBlob (urlData: string): Blob {
+        const data = urlData.split(',')
+        let bytes = window.atob(data[1])
+        let ab = new ArrayBuffer(bytes.length)
+        let ia = new Uint8Array(ab)
+        for (let i = 0; i < bytes.length; i++) {
+            ia[i] = bytes.charCodeAt(i)
+        }
+        return new Blob([ab], { type: 'image/jpg' })
+    }
+
     /**
      * 重置画布大小
      * @param config CanvasSize
@@ -376,6 +387,25 @@ class CanvasText {
             anim()
         }
     }
+
+    toImage (): string {
+        if (this.canvas) {
+            return this.canvas.toDataURL('image/png')
+        } else {
+            return ''
+        }
+    }
+
+    toFile () {
+        if (this.canvas) {
+            const urlData: string = this.toImage()
+            const blob: Blob = this.convertBase64UrlToBlob(urlData)
+            const file = new File([blob], `${new Date().getTime()}.png` )
+            return file
+        }
+    }
+
+    
 
     stop () {
         this.animRun = false
