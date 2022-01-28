@@ -21,7 +21,7 @@ import { computed, defineComponent, nextTick, onBeforeUnmount, ref, Ref, unref, 
 import CanvasView from './canvas-view.vue'
 import SvgView from './svg-view.vue'
 import { imageApi } from '@/api/images'
-import { Toast } from 'vant'
+import { Notify, Toast } from 'vant'
 import CanvasStore from './canvas/store'
 function stop (e: any) {
     e.stopPropagation()
@@ -90,7 +90,7 @@ export default defineComponent({
                 this.startRun()
             }).catch(() => {
                 Toast.clear()
-                Toast({ duration: 1000, message: '解析失败' })
+                Notify({ duration: 3000, type: 'warning', message: '解析失败' })
                 this.text = ''
                 this.startRun()
             })

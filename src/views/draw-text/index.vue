@@ -5,7 +5,7 @@
                 <header-panel @click="handleClick" />
             </div>
             <div class="view-container">
-                <div class="edit-tips" v-if="showEditTips">画个半圆向下挥</div>
+                <div class="edit-tips" v-if="showEditTips">写个字试下先</div>
                 <canvas-edit ref="canvasEditRef" />
             </div>
             <div class="botton-container">
@@ -37,7 +37,7 @@ function handleClick (type: string) {
                 previewRef.value.open(canvasEditRef.value.getFile())
             }
         } else {
-            Toast({ message: '画个半圆向下挥' })
+            Toast({ message: '写个字试下先' })
         }
     } else if (type === 'clear') {
         const ref: any = unref(canvasEditRef)
@@ -50,7 +50,7 @@ function handleClick (type: string) {
                 publishModelRef.value.open(canvasEditRef.value.getFile())
             }
         } else {
-            Toast({ message: '画个半圆向下挥' })
+            Toast({ message: '写个字试下先' })
         }
     }
 }

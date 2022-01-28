@@ -89,13 +89,13 @@ function refresh () {
         if (res.code === 0) {
             text.value = res.result ? res.result.slice(0, 1) : ''
         } else {
-            Toast({ type: 'fail', message: '识别失败' })
+            Notify({ type: 'warning', duration: 3000, message: '识别失败' })
             text.value = ''
         }
         result.value = text.value
     }).catch(() => {
         loading.value = false
-        Notify({ type: 'warning', message: '识别失败' })
+        Notify({ type: 'warning', duration: 3000, message: '识别失败' })
     })
 }
 
