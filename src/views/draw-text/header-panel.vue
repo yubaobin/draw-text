@@ -29,8 +29,11 @@ const onSelect = (action: any) => {
             case 'clear':
                 vm.emit('click', 'clear')
                 break
-             case 'public':
+            case 'public':
                 vm.emit('click', 'public')
+                break
+            case 'share':
+                vm.emit('click', 'share')
                 break
         }
     }

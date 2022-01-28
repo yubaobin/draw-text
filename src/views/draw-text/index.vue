@@ -26,6 +26,7 @@ import { computed, Ref, ref, unref } from 'vue'
 import CanvasStore from './canvas/store'
 import { Toast } from 'vant'
 import { showAllNonBaseMenuItem } from '@/hook/auth'
+import store from '@/store/index'
 
 const previewRef: Ref<any> = ref(null)
 const publishModelRef: Ref<any> = ref(null)
@@ -55,6 +56,8 @@ function handleClick (type: string) {
         } else {
             Toast({ message: '写个字试下先' })
         }
+    } else if (type === 'share') {
+        store.action.setShare(true)
     }
 }
 
