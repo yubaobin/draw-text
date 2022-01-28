@@ -2,6 +2,7 @@
     <div class="canvas-wrapper" ref="wrapperRef"></div>
 </template>
 <script lang="ts" setup>
+import { getRefPromise } from '@/utils'
 import { CanvasEventConfig } from 'types/canvas'
 import { onBeforeUnmount, onMounted, ref, Ref } from 'vue'
 import CanvasText from './canvas/canvas-text'
@@ -16,24 +17,29 @@ let drawText: CanvasText
 onBeforeUnmount(() => {
     window.removeEventListener('resize', resize)
     drawText.destroy()
+    CanvasStore.action.reset()
 })
 onMounted(() => {
-    drawText = new CanvasText(wrapperRef.value, {
-        on: {
-            start: (config: CanvasEventConfig) => {
-                CanvasStore.action.setIsOpr(config.isOpr)
-            },
-            end: (config: CanvasEventConfig) => {
-                CanvasStore.action.setIsOpr(config.isOpr)
-                CanvasStore.action.setSavePath(config.savePath)
+    getRefPromise(wrapperRef).then(ref => {
+        drawText = new CanvasText(ref, {
+            on: {
+                start: (config: CanvasEventConfig) => {
+                    CanvasStore.action.setIsOpr(config.isOpr)
+                },
+                end: (config: CanvasEventConfig) => {
+                    CanvasStore.action.setIsOpr(config.isOpr)
+                    CanvasStore.action.setSavePath(config.savePath)
+                }
             }
-        }
+        })
     })
 })
 
 function resize () {
     if (wrapperRef.value) {
-        const { width, height } = wrapperRef.value.getBoundingClientRect()
+        const rect = wrapperRef.value.getBoundingClientRect()
+        const width = rect.width || wrapperRef.value.clientWidth
+        const height = rect.height || wrapperRef.value.clientHeight
         drawText.resizeCanvas({ width, height })
     }
 }

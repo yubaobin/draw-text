@@ -2,6 +2,7 @@
     <div class="canvas-view" ref="canvasView"></div>
 </template>
 <script lang="ts" setup>
+import { getRefPromise } from '@/utils'
 import { onBeforeUnmount, onMounted, ref, Ref } from 'vue'
 import CanvasText from './canvas/canvas-text'
 
@@ -22,19 +23,22 @@ onBeforeUnmount(() => {
     drawText.destroy()
 })
 onMounted(() => {
-    drawText = new CanvasText(canvasView.value)
+    getRefPromise(canvasView).then(ref => {
+        drawText = new CanvasText(ref)
+    })
 })
 
 function resize () {
     if (canvasView.value) {
-        const { width, height } = canvasView.value.getBoundingClientRect()
+         const rect = canvasView.value.getBoundingClientRect()
+        const width = rect.width || canvasView.value.clientWidth
+        const height = rect.height || canvasView.value.clientHeight
         drawText.resizeCanvas({ width, height })
     }
 }
 
 defineExpose({
     start (config: IStartConfig) {
-        console.log(config)
         resize()
         drawText.clearCanvas()
         drawText.start(config.points, config.text)

@@ -37,7 +37,7 @@
     top: @top-header-height;
     bottom: @bottom-height + 1px;
     left: 0;
-    right: 0;
+    width: 100%;
     background-color: @background-base;
 }
 .botton-container {
@@ -92,6 +92,12 @@
     font-size: 16px;
 }
 
+.preivew-body {
+    top: @top-header-height;
+    left: 2px;
+    right: 2px;
+}
+
 .preview-container {
     position: absolute;
     top: 0;
@@ -117,9 +123,6 @@
     }
     .preivew-body {
         position: absolute;
-        top: @top-header-height;
-        left: 2px;
-        right: 2px;
         box-shadow: 0 0 6px fade(@primary, 20);
         background-color: @primary;
         bottom: @bottom-height;

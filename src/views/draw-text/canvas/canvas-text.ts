@@ -73,8 +73,8 @@ class CanvasText {
             this.canvas.id = CANVAS_ID + '_' + Date.now()
             if (this.parentWrapper) {
                 const rect = this.parentWrapper.getBoundingClientRect()
-                width = rect.width
-                height = rect.height
+                width = rect.width || this.parentWrapper.clientWidth
+                height = rect.height || this.parentWrapper.clientHeight
                 this.parentWrapper.appendChild(this.canvas)
             } else {
                 width = document.body.clientWidth
@@ -320,6 +320,7 @@ class CanvasText {
     destroy () {
         this.clearCanvas()
         if (this.canvas) {
+            this.stop()
             this._removeEventListener()
             if (this.parentWrapper) {
                 this.parentWrapper.removeChild(this.canvas)

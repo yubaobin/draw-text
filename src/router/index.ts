@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHashHistory, createWebHistory, RouteRecordRaw } from 'vue-router'
 const routes: Array<RouteRecordRaw> = [
     {
         path: '/',
@@ -35,8 +35,11 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import(/* webpackChunkName: "manage-image" */ '../views/manage-image/index.vue')
     }
 ]
+
+const isHistory = import.meta.env['VITE_router'] === 'history'
+const bseUrl = (import.meta.env['VITE_publicpath'] || '') as string
 const router = createRouter({
-    history: createWebHashHistory(),
+    history: isHistory ? createWebHistory(bseUrl) : createWebHashHistory(),
     routes
 })
 

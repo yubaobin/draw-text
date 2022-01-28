@@ -12,11 +12,11 @@ function pathResolve (dir: string) {
 	return resolve(process.cwd(), '.', dir)
 }
 export default ({ mode }: ConfigEnv): UserConfigExport => {
+	console.log(mode)
 	const root = process.cwd()
 	const env = loadEnv(mode, root)
 	const viteEnv = wrapperEnv(env)
 	const { VITE_outputdir, VITE_publicpath, VITE_port, VITE_proxy, VITE_drop_console } = viteEnv
-	console.log('createProxy', viteEnv, createProxy(VITE_proxy))
 	return defineConfig({
 		base: VITE_publicpath,
 		root,
@@ -54,8 +54,7 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
 				less: {
 					modifyVars: {
 						hack: `true; @import "${resolve('src/styles/variables.less')}";`
-					},
-					javascriptEnabled: true
+					}
 				}
 			}
 		},

@@ -4,14 +4,14 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
+    "test": "vue-tsc --noEmit && vite build --mode test",
     "preview": "vite preview"
   },
   "dependencies": {
     "axios": "^0.21.4",
-    "i": "^0.3.7",
-    "npm": "^8.3.2",
     "qs": "^6.10.3",
     "vant": "^3.4.2",
+    "vconsole": "^3.11.2",
     "vue": "^3.2.25",
     "vue-class-component": "^8.0.0-rc.1",
     "vue-router": "^4.0.12",

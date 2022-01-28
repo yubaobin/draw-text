@@ -2,7 +2,7 @@ import { ICanvasState, IPoint } from 'types/canvas'
 import { computed, reactive, readonly } from 'vue'
 
 const state: ICanvasState = reactive({
-    strokeColor: '#000',
+    strokeColor: '#f0d294',
     savePath: [],
     isOpr: false,
     text: ''
@@ -25,9 +25,10 @@ const action = {
         state.savePath = []
     },
     reset: () => {
-        state.strokeColor = '#000'
+        state.strokeColor = '#f0d294'
         state.savePath = []
         state.isOpr = false
+        state.text = ''
     }
 }
 

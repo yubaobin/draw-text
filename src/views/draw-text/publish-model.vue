@@ -8,11 +8,10 @@
                 </div>
             </template>
             <template v-else>
-                <div class="tips-message" @click="openEdit">
-                    <div class="text">
-                        {{ tipsMessage }}
-                    </div>
-                    <Icon class="icon-btn" name="edit" />
+                <div class="tips-message">
+                    <div class="text"  @click="openEdit">{{ tipsMessage }}</div>
+                    <Icon class="icon-btn" name="edit"  @click="openEdit" />
+                    <Icon class="icon-btn" name="replay" @click="refresh" />
                 </div>
             </template>
         </div>
@@ -28,8 +27,8 @@
 </template>
 <script lang="ts" setup>
 import { imageApi } from '@/api/images'
-import { Dialog, Loading, Icon, Toast } from 'vant'
-import { computed, ref } from 'vue'
+import { Dialog, Loading, Icon, Toast, Notify } from 'vant'
+import { computed, Ref, ref } from 'vue'
 import { textApi } from '@/api/text'
 import CanvasStore from './canvas/store'
 import { useRouter } from 'vue-router'
@@ -70,6 +69,8 @@ function beforeClosePublish (action: string) {
             Toast.clear()
             if (res.code === 0) {
                 router.push({ name: 'success', query: { textid: res.result?.id } })
+            } else {
+                Toast({ type: 'fail', message: '发布失败' })
             }
         }).catch(() => {
             Toast({ type: 'fail', message: '发布失败' })
@@ -78,19 +79,31 @@ function beforeClosePublish (action: string) {
     return true
 }
 
+const saveFile: Ref<any> = ref(null)
+function refresh () {
+    const formData = new FormData()
+    formData.append('file', saveFile.value)
+    loading.value = true
+    imageApi.analyze(formData).then(res => {
+        loading.value = false
+        if (res.code === 0) {
+            text.value = res.result ? res.result.slice(0, 1) : ''
+        } else {
+            Toast({ type: 'fail', message: '识别失败' })
+            text.value = ''
+        }
+        result.value = text.value
+    }).catch(() => {
+        loading.value = false
+        Notify({ type: 'warning', message: '识别失败' })
+    })
+}
+
 defineExpose({
     open (file: File) {
         show.value = true
-        const formData = new FormData()
-        formData.append('file', file)
-        loading.value = true
-        imageApi.analyze(formData).then(res => {
-            loading.value = false
-            text.value = res.result ? res.result.slice(0, 1) : ''
-            result.value = text.value
-        }).catch(() => {
-            loading.value = false
-        })
+        saveFile.value = file
+        refresh()
     },
     close () {
         show.value = false

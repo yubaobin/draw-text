@@ -10,7 +10,7 @@ import { IResponse } from 'types/axios'
 const instance: AxiosInstance = axios.create({
 	method: 'post',
 	baseURL: config.apiPath,
-	timeout: 20000,
+	timeout: 25000,
 	headers: {
 		Accept: '*',
 		'Content-Type': 'application/json'
