@@ -30,8 +30,8 @@ onMounted(() => {
 function resize () {
     if (canvasView.value) {
          const rect = canvasView.value.getBoundingClientRect()
-        const width = rect.width || canvasView.value.clientWidth
-        const height = rect.height || canvasView.value.clientHeight
+        const width = rect.width
+        const height = rect.height
         drawText.resizeCanvas({ width, height })
     }
 }

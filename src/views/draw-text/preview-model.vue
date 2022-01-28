@@ -7,7 +7,6 @@
             <div class="preivew-body">
                 <svg-view v-if="isSvg" ref="svgViewRef"/>
                 <canvas-view v-else ref="canvasViewRef"/>
-                
             </div>
             <div class="preivew-footer">
                 <div class="btn-close" @click="close">

@@ -53,8 +53,8 @@ class SvgText {
             let height = 0
             if (this.parentWrapper) {
                 const rect = this.parentWrapper.getBoundingClientRect()
-                width = rect.width || this.parentWrapper.clientWidth
-                height = rect.height || this.parentWrapper.clientHeight
+                width = rect.width
+                height = rect.height
                 this.canvas = window.Snap(width, height)
                 this.parentWrapper.appendChild(this.canvas.node)
             } else {

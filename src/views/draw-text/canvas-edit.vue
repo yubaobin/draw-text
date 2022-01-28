@@ -38,8 +38,8 @@ onMounted(() => {
 function resize () {
     if (wrapperRef.value) {
         const rect = wrapperRef.value.getBoundingClientRect()
-        const width = rect.width || wrapperRef.value.clientWidth
-        const height = rect.height || wrapperRef.value.clientHeight
+        const width = rect.width
+        const height = rect.height
         drawText.resizeCanvas({ width, height })
     }
 }

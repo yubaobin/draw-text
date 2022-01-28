@@ -78,8 +78,8 @@ class CanvasText {
             this.canvas.id = CANVAS_ID + '_' + Date.now()
             if (this.parentWrapper) {
                 const rect = this.parentWrapper.getBoundingClientRect()
-                width = rect.width || this.parentWrapper.clientWidth
-                height = rect.height || this.parentWrapper.clientHeight
+                width = rect.width 
+                height = rect.height
                 this.parentWrapper.appendChild(this.canvas)
             } else {
                 width = document.body.clientWidth
@@ -400,7 +400,7 @@ class CanvasText {
         }
         this._saveCanvas()
         if (this.context) {
-            this.context.font = '20px Georgia'
+            this.context.font = `${this.fontSize}px Georgia`
         }
         function anim () {
             const curPoint = points[row][col]
@@ -423,7 +423,8 @@ class CanvasText {
             }
         }
         if (rowLen > 0 && colLen > 0) {
-            this.lastLoc = points[row][col]
+            const firstPoint = points[row][col]
+            this.lastLoc = windowToCanvas(this.canvas,firstPoint.x, firstPoint.y)
             anim()
         }
     }

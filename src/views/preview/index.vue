@@ -7,20 +7,25 @@
             </div>
         </div>
         <div class="preivew-body">
-            <canvas-view ref="canvasViewRef"/>
+            <svg-view v-if="isSvg" ref="svgViewRef"/>
+            <canvas-view v-else ref="canvasViewRef"/>
         </div>
     </div>
 </template>
 <script lang="ts" setup>
 import { textApi } from '@/api/text'
 import { parseUrl } from '@/utils'
-import { onMounted, ref } from 'vue'
+import { nextTick, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import CanvasView from '../draw-text/canvas-view.vue'
+import SvgView from '../draw-text/svg-view.vue'
 import store from '@/store/index'
 const router = useRouter()
 const canvasViewRef: any = ref(null)
+const svgViewRef: any = ref(null)
 const params = parseUrl()
+
+const isSvg = ref(false)
 
 onMounted (() => {
     if (params.textid) {
@@ -29,9 +34,16 @@ onMounted (() => {
                 const result = res.result || {}
                 const pointsStr = result.points
                 const text = result.text
+                isSvg.value = !!text
                 const points = JSON.parse(pointsStr)
                 if (points && points.length) {
-                    canvasViewRef.value.start({ text, points })
+                    nextTick(() => {
+                        if (isSvg.value) {
+                            svgViewRef.value.start({ text, points })
+                        } else {
+                            canvasViewRef.value.start({ text, points })
+                        }
+                    })
                 } else {
                     gotoError()
                 }
