@@ -51,7 +51,7 @@ function gotoError () {
 }
 
 function gotoEdit () {
-    router.push({ name: 'DrawText' })
+    router.replace({ name: 'DrawText' })
 }
 
 function openShare () {

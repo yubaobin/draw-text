@@ -22,7 +22,8 @@ declare global {
     interface Window {
         rem: number;
         dpr: number;
-        _CONFIG: any
+        _CONFIG: any;
+        Snap: any;
     }
 }
 

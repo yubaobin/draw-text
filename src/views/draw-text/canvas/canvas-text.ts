@@ -1,5 +1,5 @@
 import { CanvasConfig, CanvasSize, EventList, IPoint } from 'types/canvas'
-import { addEvent, calcDistance, calcLineWidth, CANVAS_ID, removeEvent, windowToCanvas } from './util'
+import { addEvent, calcDistance, calcLineWidth, CANVAS_ID, FILL_COLOR, FONTSIZE, removeEvent, STROKE_COLOR, windowToCanvas } from './util'
 const ua = navigator.userAgent.toLowerCase()
 export const isMobile = /mobile|phone|android|pad/.test(ua)
 
@@ -26,9 +26,11 @@ class CanvasText {
 
     eventBus: any = {}
     savePath: Array<Array<IPoint>> = []
-    strokeColor: string = '#f0d294'
+    strokeColor: string = STROKE_COLOR
+    fillColor: string = FILL_COLOR
+    fontSize: number = FONTSIZE
     isOpr: boolean = false
-
+    disabled: boolean = false
     // 动画
     animTimer: any = null
     animRun: boolean = false
@@ -40,6 +42,7 @@ class CanvasText {
         if (config) {
             this.canvasWidth = config.width || 0
             this.canvasHeight = config.height || 0
+            this.disabled = typeof config.disabled === 'boolean' ? config.disabled : false
             this._initEvent(config)
         }
         this._initCanvas(wrapper)
@@ -56,7 +59,9 @@ class CanvasText {
             }
             this._removeEventListener()
             this.clearCanvas()
-            this._addEventListener()
+            if (!this.disabled) {
+                this._addEventListener()
+            }
         } else {
             console.warn('canvas is null')
         }
@@ -285,6 +290,14 @@ class CanvasText {
         }
     }
 
+    setDisabled (disabled: boolean) {
+        this.disabled = typeof disabled === 'boolean' ? disabled : false
+        this._removeEventListener()
+        if (!this.disabled) {
+            this._addEventListener()
+        }
+    }
+
     setStrokeColor (color: string) {
         this.strokeColor = color
     }
@@ -305,7 +318,7 @@ class CanvasText {
      */
     clearCanvas () {
         if (this.context) {
-            this.context.fillStyle = '#FF0000'
+            this.context.fillStyle = this.fillColor
             this.context.clearRect(0, 0, this.canvasWidth, this.canvasHeight)
             this.context.fillRect(0, 0, this.canvasWidth, this.canvasHeight)
             this.context.fillStyle = ''

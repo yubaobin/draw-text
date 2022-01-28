@@ -4,19 +4,18 @@
 <script lang="ts" setup>
 import { getRefPromise } from '@/utils'
 import { onBeforeUnmount, onMounted, ref, Ref } from 'vue'
-import CanvasText from './canvas/canvas-text'
+import SvgText from './canvas/svg-text'
 
 interface IStartConfig {
     text?: string;
     points: Array<any>
 }
 
-defineEmits(['click'])
 const canvasView: Ref<HTMLDivElement | null> = ref(null)
 
 window.addEventListener('resize', resize)
 
-let drawText: CanvasText
+let drawText: SvgText
 
 onBeforeUnmount(() => {
     window.removeEventListener('resize', resize)
@@ -24,7 +23,7 @@ onBeforeUnmount(() => {
 })
 onMounted(() => {
     getRefPromise(canvasView).then(ref => {
-        drawText = new CanvasText(ref, { disabled: true })
+        drawText = new SvgText(ref)
     })
 })
 
@@ -41,7 +40,7 @@ defineExpose({
     start (config: IStartConfig) {
         resize()
         drawText.clearCanvas()
-        drawText.start(config.points, config.text)
+        drawText.start(config.points, config.text || 'yb')
     },
     clearCanvas () {
         drawText.clearCanvas()

@@ -5,7 +5,9 @@ export const maxV = 10
 export const minV = 0.1
 export const maxLineWidth = 10
 export const minLineWidth = 1
-
+export const FILL_COLOR = '#FF4646'
+export const STROKE_COLOR = '#F0d294'
+export const FONTSIZE = 20
 // 检测是否支持passive选项
 let supportsPassiveOption = false
 try {

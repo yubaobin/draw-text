@@ -5,7 +5,9 @@
                 {{ tipsMessage }}
             </div>
             <div class="preivew-body">
-                <canvas-view ref="canvasViewRef"/>
+                <svg-view v-if="isSvg" ref="svgViewRef"/>
+                <canvas-view v-else ref="canvasViewRef"/>
+                
             </div>
             <div class="preivew-footer">
                 <div class="btn-close" @click="close">
@@ -18,6 +20,7 @@
 <script lang="ts">
 import { computed, defineComponent, nextTick, onBeforeUnmount, ref, Ref, unref, watch } from 'vue'
 import CanvasView from './canvas-view.vue'
+import SvgView from './svg-view.vue'
 import { imageApi } from '@/api/images'
 import { Toast } from 'vant'
 import CanvasStore from './canvas/store'
@@ -27,7 +30,8 @@ function stop (e: any) {
 
 export default defineComponent({
     components: {
-        CanvasView
+        CanvasView,
+        SvgView
     },
     setup () {
         const previewRef: Ref<HTMLDivElement | null> = ref(null)
@@ -35,6 +39,7 @@ export default defineComponent({
         const file: any = ref(null)
         const text = ref('')
         const tipsMessage = computed(() => '识别后的文字是：' + text.value)
+        const isSvg = computed(() => !!text.value)
         function createDialog () {
             nextTick(() => {
                 if (previewRef.value) {
@@ -62,6 +67,7 @@ export default defineComponent({
             visible,
             file,
             text,
+            isSvg,
             tipsMessage
         }
     },
@@ -82,18 +88,26 @@ export default defineComponent({
             imageApi.analyze(formData).then(res => {
                 this.text = res.result ? res.result.slice(0, 1) : ''
                 Toast.clear()
-                this.$nextTick(() => {
-                    const viewRef: any = this.$refs.canvasViewRef
-                    viewRef.start({
-                        points: CanvasStore.getter.savePath,
-                        text: this.text
-                    })
+                this.startRun()
+            }).catch(() => {
+                Toast.clear()
+                Toast({ duration: 1000, message: '解析失败' })
+                this.text = ''
+                this.startRun()
+            })
+        },
+        startRun () {
+            this.$nextTick(() => {
+                const viewRef: any = this.isSvg ? this.$refs.svgViewRef : this.$refs.canvasViewRef
+                viewRef.start({
+                    points: CanvasStore.getter.savePath,
+                    text: this.text
                 })
             })
         },
         handleLeave () {
             this.text = ''
-            const viewRef: any = this.$refs.canvasViewRef
+            const viewRef: any = this.isSvg ? this.$refs.svgViewRef : this.$refs.canvasViewRef
             viewRef.clearCanvas()
         },
         open (file: File) {

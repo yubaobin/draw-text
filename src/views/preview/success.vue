@@ -18,7 +18,7 @@ const router = useRouter()
 const route = useRoute()
 function gotoPreview () {
     const query = route.query
-    router.push({ name: 'Preview', query })
+    router.replace({ name: 'Preview', query })
 }
 function gotoEdit () {
     router.replace({ name: 'DrawText' })

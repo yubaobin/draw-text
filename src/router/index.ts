@@ -33,6 +33,11 @@ const routes: Array<RouteRecordRaw> = [
         path: '/manage-image',
         name: 'ManageImage',
         component: () => import(/* webpackChunkName: "manage-image" */ '../views/manage-image/index.vue')
+    },
+    {
+        path: '/test',
+        name: 'Test',
+        component: () => import(/* webpackChunkName: "test" */ '../views/draw-text/test-view.vue')
     }
 ]
 

@@ -18,7 +18,8 @@ export interface CanvasEvent {
 export interface CanvasConfig {
     width?: number;
     height?: number;
-    on?: CanvasEvent
+    on?: CanvasEvent;
+    disabled?: boolean
 }
 
 /**
