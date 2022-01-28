@@ -9,7 +9,6 @@ import { IResponse } from 'types/axios'
 /* eslint-disable prefer-promise-reject-errors */
 const instance: AxiosInstance = axios.create({
 	method: 'post',
-	baseURL: config.apiPath,
 	timeout: 25000,
 	headers: {
 		Accept: '*',
@@ -33,9 +32,13 @@ instance.interceptors.request.use(function (req: AxiosRequestConfig) {
 
 export { instance }
 
-export default async (url: string = '', query: any = {}, option: any = {}): Promise<IResponse<any>> => {
-	if (!url) {
+export default async (uri: string = '', query: any = {}, option: any = {}): Promise<IResponse<any>> => {
+	if (!uri) {
 		return Promise.reject('params "url" not exist！')
+	}
+	let url: string = uri
+	if (!option.local) {
+		url = config.apiPath + uri
 	}
 	const params: any = deleteNullByEquals(query)
 	const method = option.method || 'post'

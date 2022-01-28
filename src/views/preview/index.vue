@@ -20,12 +20,15 @@ import { useRouter } from 'vue-router'
 import CanvasView from '../draw-text/canvas-view.vue'
 import SvgView from '../draw-text/svg-view.vue'
 import store from '@/store/index'
+import { showAllNonBaseMenuItem } from '@/hook/auth'
 const router = useRouter()
 const canvasViewRef: any = ref(null)
 const svgViewRef: any = ref(null)
 const params = parseUrl()
 
 const isSvg = ref(false)
+
+showAllNonBaseMenuItem()
 
 onMounted (() => {
     if (params.textid) {

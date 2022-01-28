@@ -11,7 +11,11 @@
 <script lang="ts" setup>
 import { Overlay } from 'vant'
 import { computed } from 'vue'
+import { authWx } from './hook/auth'
 import store from './store/index'
+
+authWx()
+
 const show = computed(() => {
     return store.getter.showShare
 })

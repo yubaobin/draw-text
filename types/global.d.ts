@@ -38,3 +38,6 @@ declare module '@vue/runtime-core' {
         $fetch: Fetch;
     }
 }
+
+
+declare module 'weixin-js-sdk'

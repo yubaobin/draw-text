@@ -16,6 +16,7 @@
     "vue-class-component": "^8.0.0-rc.1",
     "vue-router": "^4.0.12",
     "vue-types": "^4.0.3",
+    "weixin-js-sdk": "^1.6.0",
     "ybnav": "^1.1.1"
   },
   "devDependencies": {

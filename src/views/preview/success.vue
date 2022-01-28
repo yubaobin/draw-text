@@ -3,7 +3,7 @@
         <div class="error-text">
             <p>发布成功 :)</p>
             <div class="error-btn">
-                <d-text @click="gotoPreview">预览</d-text>
+                <d-text @click="gotoPreview">预览(跳转预览页面才可分享)</d-text>
             </div>
             <div class="error-btn">
                 <d-text @click="gotoEdit">再写一个</d-text>
@@ -12,10 +12,14 @@
     </div>
 </template>
 <script lang="ts" setup>
+import { hideAllNonBaseMenuItem } from '@/hook/auth'
 import { useRoute, useRouter } from 'vue-router'
 
 const router = useRouter()
 const route = useRoute()
+
+hideAllNonBaseMenuItem()
+
 function gotoPreview () {
     const query = route.query
     router.replace({ name: 'Preview', query })
