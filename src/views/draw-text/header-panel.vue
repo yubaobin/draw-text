@@ -4,7 +4,8 @@
         <div class="tips-right">
             <Popover v-model:show="showPopover" :actions="actions" @select="onSelect" placement="bottom-end">
                 <template #reference>
-                    <Icon name="ellipsis" />
+                    <d-text>更多</d-text>
+                    <Icon name="arrow" />
                 </template>
             </Popover>
         </div>
