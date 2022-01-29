@@ -5,7 +5,8 @@ const state: ICanvasState = reactive({
     strokeColor: '#f0d294',
     savePath: [],
     isOpr: false,
-    text: ''
+    text: '',
+    background: ''
 })
 
 const action = {
@@ -21,6 +22,9 @@ const action = {
     setText: (text: string) => {
         state.text = text
     },
+    setBackground: (background: string) => {
+        state.background = background
+    },
     clearSavePath: () => {
         state.savePath = []
     },
@@ -28,7 +32,8 @@ const action = {
         state.strokeColor = '#f0d294'
         state.savePath = []
         state.isOpr = false
-        state.text = ''
+        state.text = '',
+        state.background = ''
     }
 }
 
@@ -36,7 +41,8 @@ const getter = readonly({
     strokeColor: computed(() => state.strokeColor),
     savePath: computed(() => state.savePath),
     isOpr: computed(() => state.isOpr),
-    text: computed(() => state.text)
+    text: computed(() => state.text),
+    background: computed(() => state.background)
 })
 
 export default {

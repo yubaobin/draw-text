@@ -8,8 +8,10 @@ import CanvasText from './canvas/canvas-text'
 
 interface IStartConfig {
     text?: string;
-    points: Array<any>
+    points: Array<any>;
+    background?: string
 }
+
 
 defineEmits(['click'])
 const canvasView: Ref<HTMLDivElement | null> = ref(null)

@@ -9,11 +9,13 @@
                 <d-text @click="gotoEdit">再写一个</d-text>
             </div>
         </div>
+        <svg-anim fonts="新年快乐" />
     </div>
 </template>
 <script lang="ts" setup>
 import { hideAllNonBaseMenuItem } from '@/hook/auth'
 import { useRoute, useRouter } from 'vue-router'
+import SvgAnim from '@/components/svg-anim/index.vue'
 
 const router = useRouter()
 const route = useRoute()

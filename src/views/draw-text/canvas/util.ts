@@ -95,4 +95,23 @@ export function calcLineWidth (t: number, s: number, lastLineWidth: number) {
     } else {
         return lastLineWidth * 2 / 3 + resultLineWidth * 1 / 3
     }
-}  
+}
+
+/**
+ * 格式化背景
+ * @param bg 
+ * @returns 
+ */
+export function formatBg (bg: string): any {
+    let span = document.createElement('span')
+    span.style.color = bg
+    if (span.style.color) {
+        return {
+            'background-color': bg
+        }
+    } else {
+        return {
+           'background-image': `url(${bg}?token=123)`
+        }
+    }
+}

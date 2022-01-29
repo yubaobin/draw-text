@@ -1,5 +1,5 @@
 import { CanvasConfig, CanvasSize, EventList, IPoint } from 'types/canvas'
-import { addEvent, calcDistance, calcLineWidth, CANVAS_ID, FILL_COLOR, FONTSIZE, removeEvent, STROKE_COLOR, windowToCanvas } from './util'
+import { addEvent, calcDistance, calcLineWidth, CANVAS_ID, FONTSIZE, removeEvent, STROKE_COLOR, windowToCanvas } from './util'
 const ua = navigator.userAgent.toLowerCase()
 export const isMobile = /mobile|phone|android|pad/.test(ua)
 
@@ -27,7 +27,6 @@ class CanvasText {
     eventBus: any = {}
     savePath: Array<Array<IPoint>> = []
     strokeColor: string = STROKE_COLOR
-    fillColor: string = FILL_COLOR
     fontSize: number = FONTSIZE
     isOpr: boolean = false
     disabled: boolean = false
@@ -318,9 +317,7 @@ class CanvasText {
      */
     clearCanvas () {
         if (this.context) {
-            this.context.fillStyle = this.fillColor
             this.context.clearRect(0, 0, this.canvasWidth, this.canvasHeight)
-            this.context.fillRect(0, 0, this.canvasWidth, this.canvasHeight)
             this.context.fillStyle = ''
             this.savePath = []
             this.recordPath = []

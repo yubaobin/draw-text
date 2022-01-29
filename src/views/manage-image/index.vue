@@ -108,8 +108,8 @@ function afterRead (file: any) {
 
 function handleDelete (id: string) {
     Dialog.confirm({
-        title: '标题',
-        message: '如果解决方法是丑陋的，那就肯定还有更好的解决方法，只是还没有发现而已。'
+        title: '确认',
+        message: '确认要删除吗？'
     }).then(() => {
         imageApi.deleteImage(id).then((res) => {
             if (res.code === 0) {

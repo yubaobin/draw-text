@@ -11,6 +11,9 @@ export const imageApi = {
 	getImageListByPage (params?: any): Promise<IResponse<IResPage>> {
 		return fetch(`${baseUrl}/listByPage`, params, { method: 'get' })
 	},
+	getImageListByList (params?: any): Promise<IResponse<any>> {
+		return fetch(`${baseUrl}/list`, params, { method: 'get' })
+	},
 	upload (params: any): Promise<IResponse<any>> {
 		return fetch(`${baseUrl}/upload`, params, { method: 'upload' })
 	},

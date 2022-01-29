@@ -1,12 +1,13 @@
 <template>
-    <div class="canvas-wrapper" ref="wrapperRef"></div>
+    <div class="canvas-wrapper bg-wrapper" ref="wrapperRef" :style="styles"></div>
 </template>
 <script lang="ts" setup>
 import { getRefPromise } from '@/utils'
 import { CanvasEventConfig } from 'types/canvas'
-import { onBeforeUnmount, onMounted, ref, Ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, Ref } from 'vue'
 import CanvasText from './canvas/canvas-text'
 import CanvasStore from './canvas/store'
+import { FILL_COLOR, formatBg } from './canvas/util'
 defineEmits(['click'])
 const wrapperRef: Ref<HTMLDivElement | null> = ref(null)
 
@@ -33,6 +34,10 @@ onMounted(() => {
             }
         })
     })
+})
+
+const styles = computed(() => {
+    return formatBg(CanvasStore.getter.background || FILL_COLOR)
 })
 
 function resize () {

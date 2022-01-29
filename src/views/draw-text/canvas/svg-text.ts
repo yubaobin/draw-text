@@ -1,13 +1,12 @@
 import { IPoint } from 'types/canvas'
 import { SvgConfig } from 'types/svg'
-import { CANVAS_ID, FILL_COLOR, FONTSIZE, STROKE_COLOR } from './util'
+import { CANVAS_ID, FONTSIZE, STROKE_COLOR } from './util'
 
 class SvgText {
     parentWrapper: Element | null = null
     canvas: any
 
     strokeColor: string = STROKE_COLOR
-    fillColor: string = FILL_COLOR
 
     fontSize: number = FONTSIZE
     space: number = FONTSIZE + 6
@@ -188,8 +187,6 @@ class SvgText {
     clearCanvas () {
         if (this.canvas) {
             this.canvas.clear()
-            const rect = this.canvas.paper.rect(0, 0, this.svgWidth, this.svgHeight)
-            rect.attr('fill', this.fillColor)
         }
     }
     /**

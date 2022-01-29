@@ -49,9 +49,14 @@
     height: @bottom-height;
     box-shadow: 0 -1px 2px fade(@primary, 40);
 }
+.bg-wrapper {
+    background-position: center!important;
+    background-size: 100% 100%!important;
+    background-repeat: no-repeat!important;
+}
 .canvas-wrapper {
     height: 100%;
-    background-color: @white;
+    background-color: @primary;
 }
 .bottom-nav {
     height: @bottom-height;
@@ -70,6 +75,17 @@
     height: @icon-height;
     line-height: @icon-height;
 }
+.nav-cover {
+    height: 44px;
+    width: 44px;
+    display: flex;
+    align-items: center;
+    justify-self: space-around;
+    img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+}
 .nav-name {
     font-size: @font-size-md;
 }
@@ -87,15 +103,15 @@
     height: 100%;
     pointer-events: none;
     text-align: center;
-    color: @white;
+    color: @glod;
     padding-top: (100px / @baseFontSize);
     font-size: 16px;
 }
 
 .preivew-body {
     top: @top-header-height;
-    left: 2px;
-    right: 2px;
+    left: 0;
+    width: 100%;
 }
 
 .preview-container {
@@ -147,5 +163,23 @@
 .preview-page {
     .preivew-body {
         bottom: 0;
+    }
+}
+.svg-wrapper {
+    position: absolute;
+    bottom: 100px;
+    left: 0;
+    width: 100%;
+}
+.svg-anim {
+    width: 100%;
+    height: auto;
+    path {
+        fill: none;
+        stroke: @glod;
+        stroke-width: 2px;
+    }
+    text {
+        fill: @glod;
     }
 }

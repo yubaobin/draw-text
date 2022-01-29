@@ -2,7 +2,8 @@ export interface ICanvasState {
     strokeColor: string;
     savePath: Array<Array<IPoint>>;
     isOpr: boolean;
-    text: string
+    text: string,
+    background: string
 }
 
 export interface CanvasEvent {

@@ -32,6 +32,7 @@ import { computed, Ref, ref } from 'vue'
 import { textApi } from '@/api/text'
 import CanvasStore from './canvas/store'
 import { useRouter } from 'vue-router'
+import { FILL_COLOR } from './canvas/util'
 const VanDialog = Dialog.Component
 const router = useRouter()
 const show = ref(false)
@@ -46,7 +47,7 @@ function openEdit () {
 }
 
 const errMsg = computed(() => {
-    return result.value.length > 2 ? '太长了 :(' : ''
+    return result.value.length > 4 ? '太长了 :(' : ''
 })
 
 function beforeCloseEdit (action: string) {
@@ -65,7 +66,7 @@ function beforeClosePublish (action: string) {
     if (action === 'confirm') {
         const points = JSON.stringify(CanvasStore.getter.savePath)
         Toast({ type: 'loading', message: '发布中..' })
-        textApi.addText({ points, text: result.value }).then(res => {
+        textApi.addText({ points, text: result.value, background: CanvasStore.getter.background || FILL_COLOR }).then(res => {
             Toast.clear()
             if (res.code === 0) {
                 router.push({ name: 'success', query: { textid: res.result?.id } })

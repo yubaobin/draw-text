@@ -4,7 +4,7 @@
             <div class="preview-header">
                 {{ tipsMessage }}
             </div>
-            <div class="preivew-body">
+            <div class="preivew-body bg-wrapper" :style="styles">
                 <svg-view v-if="isSvg" ref="svgViewRef"/>
                 <canvas-view v-else ref="canvasViewRef"/>
             </div>
@@ -23,6 +23,7 @@ import SvgView from './svg-view.vue'
 import { imageApi } from '@/api/images'
 import { Notify, Toast } from 'vant'
 import CanvasStore from './canvas/store'
+import { FILL_COLOR, formatBg } from './canvas/util'
 function stop (e: any) {
     e.stopPropagation()
 }
@@ -61,13 +62,18 @@ export default defineComponent({
             }
         })
 
+        const styles = computed(() => {
+            return formatBg(CanvasStore.getter.background || FILL_COLOR)
+        })
+
         return {
             previewRef,
             visible,
             file,
             text,
             isSvg,
-            tipsMessage
+            tipsMessage,
+            styles
         }
     },
     methods: {
