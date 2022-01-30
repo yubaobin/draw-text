@@ -383,7 +383,7 @@ class CanvasText {
         }
     }
 
-    start (points: Array<Array<IPoint>>, text?: string) {
+    start (points: Array<Array<IPoint>>, text: string, callback?: () => void) {
         // eslint-disable-next-line @typescript-eslint/no-this-alias
         const me = this
         let row: number = 0
@@ -409,10 +409,14 @@ class CanvasText {
                 if (row > rowLen - 1) { // 画完，结束
                     me.stop()
                     me._restoreCanvas()
+                    if (typeof callback == 'function') {
+                        callback.call(me)
+                    }
                 } else {
                     colLen = points[row].length
                     col = 0
-                    me.lastLoc = points[row][col]
+                    const nextpoint = points[row][col]
+                    me.lastLoc = windowToCanvas(me.canvas, nextpoint.x, nextpoint.y)
                 }
             }
             if (me.animRun) {

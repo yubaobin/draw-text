@@ -3,14 +3,9 @@
 </template>
 <script lang="ts" setup>
 import { getRefPromise } from '@/utils'
+import { IStartConfig } from 'types/canvas'
 import { onBeforeUnmount, onMounted, ref, Ref } from 'vue'
 import CanvasText from './canvas/canvas-text'
-
-interface IStartConfig {
-    text?: string;
-    points: Array<any>;
-    background?: string
-}
 
 
 defineEmits(['click'])
@@ -43,7 +38,7 @@ defineExpose({
     start (config: IStartConfig) {
         resize()
         drawText.clearCanvas()
-        drawText.start(config.points, config.text)
+        drawText.start(config.points, config.text || '', config.finish)
     },
     clearCanvas () {
         drawText.clearCanvas()

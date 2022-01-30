@@ -53,6 +53,13 @@ export interface IPoint {
     y: number
 }
 
+interface IStartConfig {
+    text?: string;
+    points: Array<any>;
+    background?: string;
+    finish?: () => void;
+}
+
 /**
  * 事件类型
  */

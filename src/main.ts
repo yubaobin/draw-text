@@ -16,3 +16,13 @@ app.use(router)
 app.mount('#app')
 
 app.config.globalProperties.$fetch = fetch
+
+const isProduction = process.env.NODE_ENV === 'production'
+if (isProduction) {
+    const hm = document.createElement('script')
+    hm.src = 'https://hm.baidu.com/hm.js?29f479ad1a28ef790cdf0e48b3fbf4e8'
+    const s = document.getElementsByTagName('script')[0] 
+    if (s && s.parentNode) {
+        s.parentNode.insertBefore(hm, s)
+    }
+}

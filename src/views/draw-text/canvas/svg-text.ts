@@ -134,7 +134,7 @@ class SvgText {
         this._resizeCanvas()
     }
 
-    start (points: Array<Array<IPoint>>, text: string) {
+    start (points: Array<Array<IPoint>>, text: string, callback?: () => void) {
         const drawText = text || 'yb'
         // eslint-disable-next-line @typescript-eslint/no-this-alias
         const me = this
@@ -160,6 +160,9 @@ class SvgText {
                 curRoute = 0
                 if (curPathIndex > length - 1) { //画完，结束
                     me.stop()
+                    if (typeof callback === 'function') {
+                        callback.call(me)
+                    }
                 } else {
                     curPath = allPath[curPathIndex]
                     if (curPath) {

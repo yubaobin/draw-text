@@ -160,9 +160,40 @@
     }
 }
 
+.screen-block {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9;
+    .tips-wrapper {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        bottom: 20%;
+        font-size: 24px;
+        color: rgba(@white, 0.8);
+        animation: slideAnim 2s infinite ease-in;
+    }
+    .icon {
+    transform: scaleX(1.3);
+        & + .icon {
+            transform: scaleX(1.3) translateY(-16px);
+        }
+    }
+}
+
 .preview-page {
+    overflow: hidden;
+    .preview-header {
+        z-index: 9;
+    }
     .preivew-body {
+        top: 0;
         bottom: 0;
+        overflow: hidden;
     }
 }
 .svg-wrapper {
@@ -181,5 +212,40 @@
     }
     text {
         fill: @glod;
+    }
+}
+
+#fire-canvas, .fire-item {
+    pointer-events: none;
+    z-index: 999;
+}
+#fire-canvas {
+    position: relative;
+    
+}
+.action-sheet {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    animation: slideInDwon .1s ease-in;
+    &-item {
+        background-color: @primary;
+        font-size: 16px;
+        text-align: center;
+        padding: 16px 0;
+        color: @glod;
+        & + .action-sheet-item {
+            position: relative;
+           &::before {
+               position: absolute;
+               content: '';
+               top: 0;
+               left: 0;
+               width: 100%;
+               height: 1px;
+               background-color: fade(#000, 10);
+           }
+        }
     }
 }

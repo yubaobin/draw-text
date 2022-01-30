@@ -1,33 +1,36 @@
 <template>
     <div class="preview-container preview-page" ref="previewRef">
-        <div class="preview-header">
-            <d-text @click="gotoEdit">我也要写一个</d-text>
-            <div class="tips-right">
-                <d-text @click="openShare">分享</d-text>
-            </div>
-        </div>
+        <Share v-model:visible="visible" />
         <div class="preivew-body bg-wrapper" :style="styles">
             <svg-view v-if="isSvg" ref="svgViewRef"/>
             <canvas-view v-else ref="canvasViewRef"/>
         </div>
+        <canvas id="fire-canvas"></canvas>
     </div>
 </template>
 <script lang="ts" setup>
 import { textApi } from '@/api/text'
-import { parseUrl } from '@/utils'
-import { computed, nextTick, onMounted, ref } from 'vue'
+import { getRefPromise, parseUrl } from '@/utils'
+import { computed, nextTick, onMounted, Ref, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import CanvasView from '../draw-text/canvas-view.vue'
 import SvgView from '../draw-text/svg-view.vue'
-import store from '@/store/index'
+import Share from './share.vue'
+import { Firework } from '../draw-text/canvas/fire'
 import { showAllNonBaseMenuItem } from '@/hook/auth'
 import { FILL_COLOR, formatBg } from '../draw-text/canvas/util'
 const router = useRouter()
-const canvasViewRef: any = ref(null)
-const svgViewRef: any = ref(null)
+const previewRef: Ref<any> = ref(null)
+const canvasViewRef: Ref<any> = ref(null)
+const svgViewRef: Ref<any> = ref(null)
 const params = parseUrl()
 
 const isSvg = ref(false)
+const visible = ref(false)
+
+function animFinish () {
+    visible.value = true
+}
 
 const background = ref(FILL_COLOR)
 
@@ -38,6 +41,7 @@ const styles = computed(() => {
 showAllNonBaseMenuItem()
 
 onMounted (() => {
+    visible.value = false
     if (params.textid) {
         textApi.getTextById(params.textid).then((res) => {
             if (res.code === 0) {
@@ -50,10 +54,11 @@ onMounted (() => {
                 if (points && points.length) {
                     nextTick(() => {
                         if (isSvg.value) {
-                            svgViewRef.value.start({ text, points })
+                            svgViewRef.value.start({ text, points, finish: animFinish })
                         } else {
-                            canvasViewRef.value.start({ text, points })
+                            canvasViewRef.value.start({ text, points, finish: animFinish })
                         }
+                        startFire()
                     })
                 } else {
                     gotoError()
@@ -70,15 +75,31 @@ onMounted (() => {
     }
 })
 
+function rannum (min: number, max: number) {
+    return Math.round(Math.random() * (max - min) + min)
+}
+
+const timer: Ref<number> = ref(0)
+
+function startFire () {
+    getRefPromise(previewRef).then((ref) => {
+        const { width, height } = ref.getBoundingClientRect()
+        timer.value = window.setInterval(() => {
+            var x = rannum(10, width - 10)
+            var y = rannum(height / 3, height * 2 / 3)
+            new Firework('.preview-page', 'fire-canvas').anim({ x, y })
+        }, 600)
+        window.setTimeout(function () {
+            stopFire()
+        }, 4000)
+    })
+}
+
+function stopFire () {
+    window.clearInterval(timer.value)
+}
+
 function gotoError () {
     router.replace({ name: 'error404' })
-}
-
-function gotoEdit () {
-    router.replace({ name: 'DrawText' })
-}
-
-function openShare () {
-    store.action.setShare(true)
 }
 </script>

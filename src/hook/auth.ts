@@ -12,9 +12,6 @@ export function authWx () {
             signature: data.signature,
             jsApiList: ['hideAllNonBaseMenuItem', 'showAllNonBaseMenuItem']
         })
-        wx.ready(function () {
-            wx.hideAllNonBaseMenuItem()
-        })
     })
 }
 
