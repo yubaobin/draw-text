@@ -17,7 +17,6 @@ import CanvasView from '../draw-text/canvas-view.vue'
 import SvgView from '../draw-text/svg-view.vue'
 import Share from './share.vue'
 import { Firework } from '../draw-text/canvas/fire'
-import { showAllNonBaseMenuItem } from '@/hook/auth'
 import { FILL_COLOR, formatBg } from '../draw-text/canvas/util'
 const router = useRouter()
 const previewRef: Ref<any> = ref(null)
@@ -37,8 +36,6 @@ const background = ref(FILL_COLOR)
 const styles = computed(() => {
     return formatBg(background.value || FILL_COLOR)
 })
-
-showAllNonBaseMenuItem()
 
 onMounted (() => {
     visible.value = false

@@ -13,14 +13,11 @@
     </div>
 </template>
 <script lang="ts" setup>
-import { hideAllNonBaseMenuItem } from '@/hook/auth'
 import { useRoute, useRouter } from 'vue-router'
 import SvgAnim from '@/components/svg-anim/index.vue'
 
 const router = useRouter()
 const route = useRoute()
-
-hideAllNonBaseMenuItem()
 
 function gotoPreview () {
     const query = route.query

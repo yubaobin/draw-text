@@ -29,6 +29,10 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
 				{
 					find: /^components\//,
 					replacement: pathResolve('src/components') + '/'
+				},
+				{
+					find: /^types\//,
+					replacement: pathResolve('types') + '/'
 				}
 			]
 		},
@@ -39,6 +43,7 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
 		},
 		build: {
 			target: 'es2015',
+			minify: 'terser',
 			outDir: VITE_outputdir || 'dist',
 			terserOptions: {
 				compress: {

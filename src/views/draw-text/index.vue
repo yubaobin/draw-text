@@ -25,14 +25,11 @@ import PublishModel from './publish-model.vue'
 import { computed, Ref, ref, unref } from 'vue'
 import CanvasStore from './canvas/store'
 import { Toast } from 'vant'
-import { showAllNonBaseMenuItem } from '@/hook/auth'
 import store from '@/store/index'
 
 const previewRef: Ref<any> = ref(null)
 const publishModelRef: Ref<any> = ref(null)
 const canvasEditRef: Ref<any> = ref(null)
-
-showAllNonBaseMenuItem()
 
 function handleClick (type: string) {
     if (type === 'preview') {
