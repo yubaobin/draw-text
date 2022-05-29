@@ -101,7 +101,9 @@ function afterRead (file: any) {
     formData.append('file', file.file)
     imageApi.upload(formData).then((res) => {
         if (res.code === 0) {
-            onRefresh()
+            imageApi.addImage({ fileurl: res.result, cover: res.result }).then(() => {
+                onRefresh()
+            })
         }
     })
 }
