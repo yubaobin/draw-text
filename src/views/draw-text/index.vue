@@ -53,8 +53,6 @@ function handleClick (type: string) {
         } else {
             Toast({ message: '写个字试下先' })
         }
-    } else if (type === 'share') {
-        store.action.setShare(true)
     }
 }
 

@@ -8,7 +8,7 @@
     <Overlay :show="show" @click="close">
         <div class="action-sheet">
             <div class="action-sheet-item" @click="gotoEdit">我也要写一个</div>
-            <div class="action-sheet-item" @click="openShare">分享</div>
+            <div class="action-sheet-item" @click="copyToClipboard()">复制链接</div>
         </div>
     </Overlay>
 </template>
@@ -18,7 +18,7 @@ import { Overlay, Icon } from 'vant'
 import store from '@/store/index'
 import { reactive, ref } from 'vue'
 import { IPoint } from 'types/canvas'
-
+import { copyToClipboard } from '@/utils'
 defineProps({
     visible: {
         type: Boolean,
@@ -52,10 +52,6 @@ function close () {
 
 function gotoEdit () {
     router.replace({ name: 'DrawText' })
-}
-
-function openShare () {
-    store.action.setShare(true)
 }
 
 function handleStart (e: MouseEvent | TouchEvent) {

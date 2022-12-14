@@ -21,8 +21,7 @@ const showPopover = ref(false)
 
 const actions = [
     { text: '清空', code: 'clear' },
-    { text: '发布', code: 'public' },
-    { text: '分享', code: 'share' }
+    { text: '发布', code: 'public' }
 ]
 const onSelect = (action: any) => {
     if (vm) {
@@ -32,9 +31,6 @@ const onSelect = (action: any) => {
                 break
             case 'public':
                 vm.emit('click', 'public')
-                break
-            case 'share':
-                vm.emit('click', 'share')
                 break
         }
     }

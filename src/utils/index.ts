@@ -1,5 +1,5 @@
 import { Ref, unref } from 'vue'
-
+import { Toast } from 'vant'
 /**
  * 获取ref对象
  * @param vm Vue组件
@@ -88,4 +88,34 @@ export function deleteNullByEquals (params: any) {
 		arr2[ta[0]] = ta[1]
 	}
 	return arr2
+}
+
+export const copyToClipboard = (url?: string) => {
+    const copyText = url || window.location.href
+    const el = document.createElement('textarea');
+    el.value = copyText;
+    el.setAttribute('readonly', '');
+    el.style.position = 'absolute';
+    el.style.left = '-9999px';
+    document.body.appendChild(el);
+
+    const selection = document.getSelection();
+
+    if (!selection) {
+        return;
+    }
+
+    const selected = selection.rangeCount > 0 ? selection.getRangeAt(0) : false;
+
+    el.select();
+    const result = document.execCommand('copy');
+    document.body.removeChild(el);
+
+    if (selected) {
+        selection.removeAllRanges();
+        selection.addRange(selected);
+    }
+    if (result) {
+        Toast({ message: '复制成功' })
+    }
 }

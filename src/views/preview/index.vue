@@ -65,10 +65,10 @@ onMounted (() => {
                 gotoError()
             }
         }).catch(() => {
-            gotoError()
+            // gotoError()
         })
     } else {
-        gotoError()
+        // gotoError()
     }
 })
 
