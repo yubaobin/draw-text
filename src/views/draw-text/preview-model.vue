@@ -21,7 +21,7 @@ import { computed, defineComponent, nextTick, onBeforeUnmount, ref, type Ref, un
 import CanvasView from './canvas-view.vue'
 import SvgView from './svg-view.vue'
 import { imageApi } from '@/api/images'
-import { showToast } from 'vant'
+import { closeToast, showToast } from 'vant'
 import CanvasStore from './canvas/store'
 import { FILL_COLOR, formatBg } from './canvas/util'
 function stop (e: any) {
@@ -89,16 +89,16 @@ export default defineComponent({
             const file = unref(this.file)
             const formData = new FormData()
             formData.append('file', file)
-            const toast = showToast({ duration: 0, type: 'loading', message: '文字识别中...' })
+            showToast({ duration: 0, type: 'loading', message: '文字识别中...' })
             imageApi
                 .analyze(formData)
                 .then((res) => {
                     this.text = res.result ? res.result.slice(0, 1) : ''
-                    toast.close()
+                    closeToast()
                     this.startRun()
                 })
                 .catch(() => {
-                    toast.close()
+                    closeToast()
                     this.text = ''
                     this.startRun()
                 })

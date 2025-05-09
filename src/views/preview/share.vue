@@ -9,24 +9,23 @@
         @mouseup="handleEnd">
         <div class="tips-wrapper" v-show="visible">
             <div class="icon">
-                <Icon name="arrow-up" />
+                <van-icon name="arrow-up" />
             </div>
             <div class="icon">
-                <Icon name="arrow-up" />
+                <van-icon name="arrow-up" />
             </div>
         </div>
     </div>
-    <Overlay :show="show" @click="close">
+    <van-overlay :show="show" @click="close">
         <div class="action-sheet">
             <div class="action-sheet-item" @click="gotoEdit">我也要写一个</div>
             <div class="action-sheet-item" @click="copyToClipboard()">复制链接</div>
         </div>
-    </Overlay>
+    </van-overlay>
 </template>
 <script lang="ts" setup>
 import type { IPoint } from '#/canvas'
 import { useRouter } from 'vue-router'
-import { Overlay, Icon } from 'vant'
 import { reactive, ref } from 'vue'
 import { copyToClipboard } from '@/utils'
 defineProps({

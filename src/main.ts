@@ -1,11 +1,10 @@
 import './styles/index.less'
-import 'ybnav/dist/ybnav.css'
 import { createApp } from 'vue'
 import { router, setupRouter } from './router'
 import App from './App.vue'
 import './flexible'
 
-async function bootstrap() {
+async function bootstrap () {
     const app = createApp(App)
     setupRouter(app)
     await router.isReady()

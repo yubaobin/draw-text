@@ -41,7 +41,7 @@ export default defineComponent({
     outline: none;
     cursor: pointer;
     padding: 0;
-    font-size: @font-size-md;
+    font-size: var(--van-font-size-md);
     font-weight: 500;
 }
 </style>

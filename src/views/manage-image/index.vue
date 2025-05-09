@@ -1,45 +1,45 @@
 <template>
     <div class="manage-view">
-        <PullRefresh @refresh="onRefresh" v-model="refreshing">
-            <List
+        <van-pull-refresh @refresh="onRefresh" v-model="refreshing">
+            <van-list
                 v-model:loading="loadingMore"
                 :finished="loadingFinished"
                 :finished-text="finishedText"
                 @load="loadMore">
                 <div class="img-list">
                     <template v-for="item in list" :key="item.id">
-                        <SwipeCell>
+                        <van-swipe-cell>
                             <div class="card-item">
                                 <div class="card-inner">
                                     <img :src="item.fileurl + '?token=1231'" />
                                 </div>
                             </div>
                             <template #right>
-                                <Button
+                                <van-button
                                     square
                                     text="删除"
                                     type="danger"
                                     @click="handleDelete(item.id)"
                                     class="delete-button" />
                             </template>
-                        </SwipeCell>
+                        </van-swipe-cell>
                     </template>
                 </div>
-            </List>
-        </PullRefresh>
+            </van-list>
+        </van-pull-refresh>
         <div class="bottom-container">
-            <Uploader :after-read="afterRead" style="width: 100%">
-                <Button block>
-                    <Icon name="plus" />
-                </Button>
-            </Uploader>
+            <van-uploader :after-read="afterRead" style="width: 100%">
+                <van-button block>
+                    <van-icon name="plus" />
+                </van-button>
+            </van-uploader>
         </div>
     </div>
 </template>
 <script lang="ts" setup>
 import type { PageQuery } from '#/axios'
 import { imageApi } from '@/api/images'
-import { PullRefresh, Button, Icon, List, Uploader, SwipeCell, showToast, Dialog } from 'vant'
+import { showToast, showConfirmDialog } from 'vant'
 import { ref, reactive, type Ref } from 'vue'
 
 interface Query extends PageQuery {
@@ -118,7 +118,7 @@ function afterRead (file: any) {
 }
 
 function handleDelete (id: string) {
-    Dialog.confirm({
+    showConfirmDialog({
         title: '确认',
         message: '确认要删除吗？'
     })
@@ -149,7 +149,7 @@ function handleDelete (id: string) {
     padding-bottom: @bottom-height;
     box-sizing: border-box;
     overflow: auto;
-    background-color: fade(@primary, 10);
+    background-color: rgba(var(--van-primary-color), 0.1);
 
     .img-list {
         .card-item {

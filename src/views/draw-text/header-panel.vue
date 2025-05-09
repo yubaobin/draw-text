@@ -2,12 +2,12 @@
     <div class="header-panel">
         <d-text @click="$emit('click', 'preview')">预览</d-text>
         <div class="tips-right">
-            <Popover v-model:show="showPopover" :actions="actions" @select="onSelect" placement="bottom-end">
+            <van-popover v-model:show="showPopover" :actions="actions" @select="onSelect" placement="bottom-end">
                 <template #reference>
                     <d-text>更多</d-text>
-                    <Icon name="arrow" />
+                    <van-icon name="arrow" />
                 </template>
-            </Popover>
+            </van-popover>
         </div>
     </div>
 </template>

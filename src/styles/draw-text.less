@@ -13,12 +13,12 @@
     left: 0;
     right: 0;
     height: @top-header-height;
-    background-color: @white;
-    box-shadow: 0 0 2px fade(@primary, 40);
+    background-color: var(--van-white);
+    box-shadow: 0 0 2px rgba(var(--van-primary-color), 0.4);
     z-index: 9;
     padding: 0 16px;
     box-sizing: border-box;
-    color: @primary;
+    color: var(--van-primary-color);
     .tips-right {
         right: 16px;
     }
@@ -38,16 +38,16 @@
     bottom: @bottom-height + 1px;
     left: 0;
     width: 100%;
-    background-color: @background-base;
+    background-color: var(--van-background);
 }
 .botton-container {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: @white;
+    background-color: var(--van-white);
     height: @bottom-height;
-    box-shadow: 0 -1px 2px fade(@primary, 40);
+    box-shadow: 0 -1px 2px rgba(var(--van-primary-color), 0.4);
 }
 .bg-wrapper {
     background-position: center !important;
@@ -56,12 +56,12 @@
 }
 .canvas-wrapper {
     height: 100%;
-    background-color: @primary;
+    background-color: var(--van-primary-color);
 }
 .bottom-nav {
     height: @bottom-height;
-    font-size: @font-size-sm;
-    color: @primary;
+    font-size: var(--van-font-size-sm);
+    color: var(--van-primary-color);
     .ybnav-wrapper {
         align-items: center;
     }
@@ -87,7 +87,7 @@
     }
 }
 .nav-name {
-    font-size: @font-size-md;
+    font-size: var(--van-font-size-md);
 }
 
 .canvas-view {
@@ -103,7 +103,7 @@
     height: 100%;
     pointer-events: none;
     text-align: center;
-    color: @glod;
+    color: var(--van-gold-color);
     padding-top: (100px / @baseFontSize);
     font-size: 16px;
 }
@@ -128,10 +128,10 @@
         top: 0;
         left: 0;
         width: 100%;
-        background-color: @primary;
+        background-color: var(--van-primary-color);
         padding: 0 16px;
         box-sizing: border-box;
-        color: @glod;
+        color: var(--van-gold-color);
         font-size: 16px;
         .tips-right {
             right: 16px;
@@ -139,8 +139,8 @@
     }
     .preivew-body {
         position: absolute;
-        box-shadow: 0 0 6px fade(@primary, 20);
-        background-color: @primary;
+        box-shadow: 0 0 6px rgba(var(--van-primary-color), 0.2);
+        background-color: var(--van-primary-color);
         bottom: @bottom-height;
         border-radius: 4px;
     }
@@ -155,7 +155,7 @@
         background-color: fade(#000, 60);
     }
     .btn-close {
-        color: @white;
+        color: var(--van-white);
         font-size: 32px;
     }
 }
@@ -174,7 +174,7 @@
         text-align: center;
         bottom: 20%;
         font-size: 24px;
-        color: rgba(@white, 0.8);
+        color: rgba(var(--van-white), 0.8);
         animation: slideAnim 2s infinite ease-in;
     }
     .icon {
@@ -207,11 +207,11 @@
     height: auto;
     path {
         fill: none;
-        stroke: @glod;
+        stroke: var(--van-gold-color);
         stroke-width: 2px;
     }
     text {
-        fill: @glod;
+        fill: var(--van-gold-color);
     }
 }
 
@@ -230,11 +230,11 @@
     width: 100%;
     animation: slideInDwon 0.1s ease-in;
     &-item {
-        background-color: @primary;
+        background-color: var(--van-primary-color);
         font-size: 16px;
         text-align: center;
         padding: 16px 0;
-        color: @glod;
+        color: var(--van-gold-color);
         & + .action-sheet-item {
             position: relative;
             &::before {

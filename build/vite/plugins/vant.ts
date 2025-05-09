@@ -11,6 +11,7 @@ export function configVantPlugin () {
         Components({
             resolvers: [VantResolver()],
             dts: false
+            
         })
     ]
 }
