@@ -1,12 +1,21 @@
 <template>
-     <div class="svg-wrapper">
+    <div class="svg-wrapper">
         <svg class="svg-anim" viewBox="0 0 375 120">
-            <path ref="happyPathRef" id="happy-path" transform="translate(0, 30)"
-                d="M0,34.5422363 C47.6335836,11.7415365 81.0348897,0.341186523 100.203918,0.341186523 C172.098344,0.341186523 212.608178,72.0298462 257.023193,72.0298462 C328.811253,72.0298462 375,34.5422363 375,34.5422363"
-            />
+            <path
+                ref="happyPathRef"
+                id="happy-path"
+                transform="translate(0, 30)"
+                d="M0,34.5422363 C47.6335836,11.7415365 81.0348897,0.341186523 100.203918,0.341186523 C172.098344,0.341186523 212.608178,72.0298462 257.023193,72.0298462 C328.811253,72.0298462 375,34.5422363 375,34.5422363" />
             <template v-for="(item, index) in fontList" :key="getKey(index, 'anim')">
-                <animateMotion v-bind:xlink:href='item.animId' fill="freeze" rotate="auto" :begin="item.begin" :dur="item.dur" calcMode="discrete" repeatCount="indefinite">
-                    <mpath xlink:href="#happy-path"/>
+                <animateMotion
+                    v-bind:xlink:href="item.animId"
+                    fill="freeze"
+                    rotate="auto"
+                    :begin="item.begin"
+                    :dur="item.dur"
+                    calcMode="discrete"
+                    repeatCount="indefinite">
+                    <mpath xlink:href="#happy-path" />
                 </animateMotion>
                 <text :id="item.id" x="-30" y="20" :style="fontStyle">{{ item.text }}</text>
             </template>
@@ -14,13 +23,14 @@
     </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent, onMounted, PropType, ref, Ref } from 'vue'
+import type { PropType, Ref } from 'vue'
+import { computed, defineComponent, onMounted, ref } from 'vue'
 
 interface IAnimItem {
-    id: string,
-    animId: string,
-    begin: string,
-    dur: string,
+    id: string
+    animId: string
+    begin: string
+    dur: string
     text: string
 }
 
@@ -59,7 +69,7 @@ export default defineComponent({
                 'font-size': props.fontSize + 'px'
             }
         })
-        function getKey (index: number, type) {
+        function getKey (index: number, type: string) {
             return `${type}_${index}`
         }
         function getFontId (index: number) {
@@ -77,8 +87,8 @@ export default defineComponent({
             preTime.value = props.fontSize / speed
         }
         onMounted(() => {
-           changePreTime()
-           initFontList()
+            changePreTime()
+            initFontList()
         })
         return {
             fontList,

@@ -1,4 +1,4 @@
-import { ICanvasState, IPoint } from 'types/canvas'
+import type { ICanvasState, IPoint } from '#/canvas'
 import { computed, reactive, readonly } from 'vue'
 
 const state: ICanvasState = reactive({
@@ -32,7 +32,7 @@ const action = {
         state.strokeColor = '#f0d294'
         state.savePath = []
         state.isOpr = false
-        state.text = '',
+        state.text = ''
         state.background = ''
     }
 }

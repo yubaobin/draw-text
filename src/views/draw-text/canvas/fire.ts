@@ -13,6 +13,7 @@ export class Firework {
     ch: any
     context: any = null
     firebox: any = null
+
     constructor (el: string, canvasId: string) {
         this.parentWrapper = document.querySelector(el)
         this.canvas = document.getElementById(canvasId)
@@ -53,43 +54,42 @@ export class Firework {
     bufferMove (obj: IFireBox, json: IPosition, fn: () => void) {
         let speed = 0
         // eslint-disable-next-line @typescript-eslint/no-this-alias
-        let me = this
+        const me = this
         clearInterval(obj.timer)
         obj.timer = window.setInterval(function () {
             let flag = true
-            for (let attr in json) {
+            for (const attr in json) {
                 let currentValue = 0
                 if (attr === 'opacity') {
                     currentValue = Math.round(me.getStyle(obj, attr) * 100)
                 } else {
                     currentValue = parseInt(me.getStyle(obj, attr))
                 }
-                speed = (json[attr] - currentValue) / 10
+                speed = ((json as any)[attr] - currentValue) / 10
                 speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed)
 
-                if (currentValue !== json[attr]) {
+                if (currentValue !== (json as any)[attr]) {
                     if (attr === 'opacity') {
                         obj.style.opacity = (currentValue + speed) / 100 + ''
-                        obj.style.filter =
-                            'alpha(opacity=' + (currentValue + speed) + ')' //IE
+                        obj.style.filter = 'alpha(opacity=' + (currentValue + speed) + ')' //IE
                     } else {
-                        obj.style[attr] = currentValue + speed + 'px'
+                        ; (obj.style as any)[attr] = currentValue + speed + 'px'
                     }
                     flag = false
                 }
             }
             if (flag) {
                 clearInterval(obj.timer)
-                fn && typeof fn === 'function' && fn()
+                if (typeof fn === 'function') fn()
             }
         }, 10)
     }
     getStyle (element: HTMLElement, property: string) {
-        let getComputedStyle = window.getComputedStyle
+        const getComputedStyle = window.getComputedStyle
         if (getComputedStyle) {
             return getComputedStyle(element).getPropertyValue(property)
         } else {
-            return element.style[property]
+            return (element.style as any)[property]
         }
     }
     clearCanvas () {
@@ -97,7 +97,7 @@ export class Firework {
     }
     fire (x: number, y: number) {
         // eslint-disable-next-line @typescript-eslint/no-this-alias
-        let me = this
+        const me = this
         me.createFireworks(x, y)
 
         function tick () {
@@ -106,7 +106,7 @@ export class Firework {
             me.context.fillStyle = 'rgba(0,0,0,' + 10 / 100 + ')'
             me.context.fillRect(0, 0, me.canvas.width, me.canvas.height)
             me.context.globalCompositeOperation = 'lighter'
-            let result = me.drawFireworks()
+            const result = me.drawFireworks()
             if (result) {
                 me.rid = requestAnimationFrame(tick)
             }
@@ -124,23 +124,19 @@ export class Firework {
     createFireworks (sx: number, sy: number) {
         this.particles = []
         this.count = 0
-        let hue = Math.floor(Math.random() * 11) + 20
-        let hueVariance = 30
-        let count = 100
+        const hue = Math.floor(Math.random() * 11) + 20
+        const hueVariance = 30
+        const count = 100
         for (let i = 0; i < count; i++) {
-            let p: any = {}
-            let angle = Math.floor(Math.random() * 360)
+            const p: any = {}
+            const angle = Math.floor(Math.random() * 360)
             p.radians = (angle * Math.PI) / 180
             p.x = sx
             p.y = sy
             p.speed = Math.random() * 5 + 0.4
             p.radius = p.speed
             p.size = Math.floor(Math.random() * 3) + 1
-            p.hue =
-                Math.floor(
-                    Math.random() * (hue + hueVariance - (hue - hueVariance))
-                ) +
-                (hue - hueVariance)
+            p.hue = Math.floor(Math.random() * (hue + hueVariance - (hue - hueVariance))) + (hue - hueVariance)
             p.brightness = Math.floor(Math.random() * 31) + 50
             p.alpha = (Math.floor(Math.random() * 61) + 40) / 100
             this.particles.push(p)
@@ -163,9 +159,9 @@ export class Firework {
         } else {
             this.count = 0
             for (let i = 0; i < this.particles.length; i++) {
-                let p = this.particles[i]
-                let vx = Math.cos(p.radians) * p.radius
-                let vy = Math.sin(p.radians) * p.radius + 0.4
+                const p = this.particles[i]
+                const vx = Math.cos(p.radians) * p.radius
+                const vy = Math.sin(p.radians) * p.radius + 0.4
                 p.x += vx
                 p.y += vy
                 p.radius *= 1 - p.speed / 100
@@ -176,14 +172,7 @@ export class Firework {
                 this.context.beginPath()
                 this.context.arc(p.x, p.y, p.size, 0, Math.PI * 2, false)
                 this.context.closePath()
-                this.context.fillStyle =
-                    'hsla(' +
-                    p.hue +
-                    ', 100%, ' +
-                    p.brightness +
-                    '%, ' +
-                    p.alpha +
-                    ')'
+                this.context.fillStyle = 'hsla(' + p.hue + ', 100%, ' + p.brightness + '%, ' + p.alpha + ')'
                 this.context.fill()
             }
             return true

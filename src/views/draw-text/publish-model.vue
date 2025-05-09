@@ -1,5 +1,10 @@
 <template>
-    <van-dialog v-model:show="show" title="有点东西要确认一下" show-cancel-button confirmButtonText="发布" :before-close="beforeClosePublish">
+    <van-dialog
+        v-model:show="show"
+        title="有点东西要确认一下"
+        show-cancel-button
+        confirmButtonText="发布"
+        :before-close="beforeClosePublish">
         <div class="tips-container">
             <template v-if="loading">
                 <div class="tips-message">
@@ -9,8 +14,8 @@
             </template>
             <template v-else>
                 <div class="tips-message">
-                    <div class="text"  @click="openEdit">{{ tipsMessage }}</div>
-                    <Icon class="icon-btn" name="edit"  @click="openEdit" />
+                    <div class="text" @click="openEdit">{{ tipsMessage }}</div>
+                    <Icon class="icon-btn" name="edit" @click="openEdit" />
                     <Icon class="icon-btn" name="replay" @click="refresh" />
                 </div>
             </template>
@@ -27,8 +32,8 @@
 </template>
 <script lang="ts" setup>
 import { imageApi } from '@/api/images'
-import { Dialog, Loading, Icon, Toast, Notify } from 'vant'
-import { computed, Ref, ref } from 'vue'
+import { Dialog, Loading, Icon, showToast, showNotify } from 'vant'
+import { computed, type Ref, ref } from 'vue'
 import { textApi } from '@/api/text'
 import CanvasStore from './canvas/store'
 import { useRouter } from 'vue-router'
@@ -65,17 +70,20 @@ function beforeCloseEdit (action: string) {
 function beforeClosePublish (action: string) {
     if (action === 'confirm') {
         const points = JSON.stringify(CanvasStore.getter.savePath)
-        Toast({ type: 'loading', message: '发布中..' })
-        textApi.addText({ points, text: result.value, background: CanvasStore.getter.background || FILL_COLOR }).then(res => {
-            Toast.clear()
-            if (res.code === 0) {
-                router.push({ name: 'success', query: { textid: res.result?.id } })
-            } else {
-                Toast({ type: 'fail', message: '发布失败' })
-            }
-        }).catch(() => {
-            Toast({ type: 'fail', message: '发布失败' })
-        })
+        const toast = showToast({ type: 'loading', message: '发布中..' })
+        textApi
+            .addText({ points, text: result.value, background: CanvasStore.getter.background || FILL_COLOR })
+            .then((res) => {
+                toast.close()
+                if (res.code === 0) {
+                    router.push({ name: 'success', query: { textid: res.result?.id } })
+                } else {
+                    showToast({ type: 'fail', message: '发布失败' })
+                }
+            })
+            .catch(() => {
+                showToast({ type: 'fail', message: '发布失败' })
+            })
     }
     return true
 }
@@ -85,19 +93,22 @@ function refresh () {
     const formData = new FormData()
     formData.append('file', saveFile.value)
     loading.value = true
-    imageApi.analyze(formData).then(res => {
-        loading.value = false
-        if (res.code === 0) {
-            text.value = res.result ? res.result.slice(0, 1) : ''
-        } else {
-            Notify({ type: 'warning', duration: 3000, message: '识别失败' })
-            text.value = ''
-        }
-        result.value = text.value
-    }).catch(() => {
-        loading.value = false
-        Notify({ type: 'warning', duration: 3000, message: '识别失败' })
-    })
+    imageApi
+        .analyze(formData)
+        .then((res) => {
+            loading.value = false
+            if (res.code === 0) {
+                text.value = res.result ? res.result.slice(0, 1) : ''
+            } else {
+                showNotify({ type: 'warning', duration: 3000, message: '识别失败' })
+                text.value = ''
+            }
+            result.value = text.value
+        })
+        .catch(() => {
+            loading.value = false
+            showNotify({ type: 'warning', duration: 3000, message: '识别失败' })
+        })
 }
 
 defineExpose({
@@ -111,5 +122,4 @@ defineExpose({
         checked.value = false
     }
 })
-
 </script>

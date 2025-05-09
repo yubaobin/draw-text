@@ -2,11 +2,11 @@
     <div class="canvas-view" ref="canvasView"></div>
 </template>
 <script lang="ts" setup>
+import type { IStartConfig } from '#/canvas'
+import type { Ref } from 'vue'
 import { getRefPromise } from '@/utils'
-import { IStartConfig } from 'types/canvas'
-import { onBeforeUnmount, onMounted, ref, Ref } from 'vue'
+import { onBeforeUnmount, onMounted, ref } from 'vue'
 import SvgText from './canvas/svg-text'
-
 
 const canvasView: Ref<HTMLDivElement | null> = ref(null)
 
@@ -19,14 +19,14 @@ onBeforeUnmount(() => {
     drawText.destroy()
 })
 onMounted(() => {
-    getRefPromise(canvasView).then(ref => {
+    getRefPromise(canvasView).then((ref) => {
         drawText = new SvgText(ref)
     })
 })
 
 function resize () {
     if (canvasView.value) {
-         const rect = canvasView.value.getBoundingClientRect()
+        const rect = canvasView.value.getBoundingClientRect()
         const width = rect.width
         const height = rect.height
         drawText.resizeCanvas({ width, height })

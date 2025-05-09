@@ -2,11 +2,10 @@
     <div class="canvas-view" ref="canvasView"></div>
 </template>
 <script lang="ts" setup>
+import type { IStartConfig } from '#/canvas'
 import { getRefPromise } from '@/utils'
-import { IStartConfig } from 'types/canvas'
-import { onBeforeUnmount, onMounted, ref, Ref } from 'vue'
+import { onBeforeUnmount, onMounted, ref, type Ref } from 'vue'
 import CanvasText from './canvas/canvas-text'
-
 
 defineEmits(['click'])
 const canvasView: Ref<HTMLDivElement | null> = ref(null)
@@ -20,14 +19,14 @@ onBeforeUnmount(() => {
     drawText.destroy()
 })
 onMounted(() => {
-    getRefPromise(canvasView).then(ref => {
+    getRefPromise(canvasView).then((ref) => {
         drawText = new CanvasText(ref, { disabled: true })
     })
 })
 
 function resize () {
     if (canvasView.value) {
-         const rect = canvasView.value.getBoundingClientRect()
+        const rect = canvasView.value.getBoundingClientRect()
         const width = rect.width
         const height = rect.height
         drawText.resizeCanvas({ width, height })

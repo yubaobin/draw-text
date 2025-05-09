@@ -1,4 +1,4 @@
-import { IGlobalConfig } from 'types/module'
+import type { IGlobalConfig } from '#/module'
 import { computed, reactive, readonly } from 'vue'
 
 const state: IGlobalConfig = reactive({

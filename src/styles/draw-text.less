@@ -50,9 +50,9 @@
     box-shadow: 0 -1px 2px fade(@primary, 40);
 }
 .bg-wrapper {
-    background-position: center!important;
-    background-size: 100% 100%!important;
-    background-repeat: no-repeat!important;
+    background-position: center !important;
+    background-size: 100% 100% !important;
+    background-repeat: no-repeat !important;
 }
 .canvas-wrapper {
     height: 100%;
@@ -178,7 +178,7 @@
         animation: slideAnim 2s infinite ease-in;
     }
     .icon {
-    transform: scaleX(1.3);
+        transform: scaleX(1.3);
         & + .icon {
             transform: scaleX(1.3) translateY(-16px);
         }
@@ -215,20 +215,20 @@
     }
 }
 
-#fire-canvas, .fire-item {
+#fire-canvas,
+.fire-item {
     pointer-events: none;
     z-index: 999;
 }
 #fire-canvas {
     position: relative;
-    
 }
 .action-sheet {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    animation: slideInDwon .1s ease-in;
+    animation: slideInDwon 0.1s ease-in;
     &-item {
         background-color: @primary;
         font-size: 16px;
@@ -237,15 +237,15 @@
         color: @glod;
         & + .action-sheet-item {
             position: relative;
-           &::before {
-               position: absolute;
-               content: '';
-               top: 0;
-               left: 0;
-               width: 100%;
-               height: 1px;
-               background-color: fade(#000, 10);
-           }
+            &::before {
+                position: absolute;
+                content: '';
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 1px;
+                background-color: fade(#000, 10);
+            }
         }
     }
 }

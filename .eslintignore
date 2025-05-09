@@ -1,7 +1,0 @@
-node_modules
-**/iconfont.js
-**/lib
-*.md
-*.scss
-*.woff
-*.ttf

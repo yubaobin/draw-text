@@ -1,81 +1,61 @@
-import { ConfigEnv, defineConfig, loadEnv, UserConfigExport } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import styleImport from 'vite-plugin-style-import'
-import { resolve } from 'path'
+import type { Drop } from './node_modules/esbuild/lib/main'
+import type { ConfigEnv } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
+import { fileURLToPath, URL } from 'node:url'
 import { createProxy } from './build/vite/proxy'
 import { wrapperEnv } from './build/utils'
-const isProduction = process.env.NODE_ENV === 'production'
+import { createVitePlugins } from './build/vite/plugins/index'
 
-console.log('生产环境', isProduction)
+export default ({ command, mode }: ConfigEnv) => {
+    console.log(mode)
+    const root = process.cwd()
+    const env = loadEnv(mode, root)
+    const viteEnv = wrapperEnv(env)
+    const isBuild = command === 'build'
 
-function pathResolve (dir: string) {
-	return resolve(process.cwd(), '.', dir)
-}
-export default ({ mode }: ConfigEnv): UserConfigExport => {
-	console.log(mode)
-	const root = process.cwd()
-	const env = loadEnv(mode, root)
-	const viteEnv = wrapperEnv(env)
-	const { VITE_outputdir, VITE_publicpath, VITE_port, VITE_proxy, VITE_drop_console } = viteEnv
-	return defineConfig({
-		base: VITE_publicpath,
-		root,
-		resolve: {
-			alias: [
-				{
-					find: /^@\//,
-					replacement: pathResolve('src') + '/'
-				},
-				{
-					find: /^components\//,
-					replacement: pathResolve('src/components') + '/'
-				},
-				{
-					find: /^types\//,
-					replacement: pathResolve('types') + '/'
-				}
-			]
-		},
-		server: {
-			host: true,
-			port: VITE_port || '3000',
-			proxy: createProxy(VITE_proxy)
-		},
-		build: {
-			target: 'es2015',
-			minify: 'terser',
-			outDir: VITE_outputdir || 'dist',
-			terserOptions: {
-				compress: {
-					keep_infinity: true,
-					drop_console: VITE_drop_console
-				}
-			},
-			brotliSize: false,
-			chunkSizeWarningLimit: 2000
-		},
-		css: {
-			preprocessorOptions: {
-				less: {
-					modifyVars: {
-						hack: `true; @import "${resolve('src/styles/variables.less')}";`
-					}
-				}
-			}
-		},
-		plugins: [
-			vue(),
-			styleImport({
-				resolves: [{
-					libraryName: 'vant',
-					esModule: true,
-					resolveStyle: (name) => {
-						return `/node_modules/vant/es/${name}/style`
-					}
-				}]
-			})
-		]
-	})
+    const { VITE_outputdir, VITE_publicpath, VITE_port, VITE_drop_console } = viteEnv
+
+    const buildDrop: Drop[] = ['debugger']
+    if (VITE_drop_console) {
+        buildDrop.push('console')
+    }
+
+    return defineConfig({
+        base: VITE_publicpath.endsWith('/') ? VITE_publicpath : `${VITE_publicpath}/`,
+        root,
+        plugins: createVitePlugins(viteEnv, isBuild),
+        resolve: {
+            alias: {
+                '@': fileURLToPath(new URL('./src', import.meta.url)),
+                'components': fileURLToPath(new URL('./components', import.meta.url)),
+                '#': fileURLToPath(new URL('./types', import.meta.url))
+            }
+        },
+        server: {
+            host: true,
+            port: VITE_port || '3000',
+            proxy: createProxy([])
+        },
+        esbuild: {
+            drop: buildDrop
+        },
+        build: {
+            target: 'es2015',
+            cssTarget: ['chrome79'],
+            sourcemap: false,
+            outDir: VITE_outputdir || 'dist',
+            minify: 'esbuild'
+        },
+        css: {
+            preprocessorOptions: {
+                less: {
+                    modifyVars: {
+                        hack: 'true; @import "@/styles/variables.less";'
+                    }
+                }
+            }
+        }
+    })
 }
 
 

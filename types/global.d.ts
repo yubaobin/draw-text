@@ -6,31 +6,32 @@ declare global {
         readonly [key: string]: T;
     }
     declare interface ViteEnv {
+        VITE_appname: string;
         VITE_publicpath: string;
         VITE_outputdir: string;
         VITE_port: number;
-        VITE_proxy: [string, string][];
         VITE_drop_console: boolean;
         VITE_apipath: string;
     }
     namespace JSX {
-		interface IntrinsicElements {
-			[elem: string]: any;
-		}
-	}
+        interface IntrinsicElements {
+            [elem: string]: any;
+        }
+    }
 
     interface Window {
         rem: number;
         dpr: number;
         _CONFIG: any;
         Snap: any;
+        lib: any
     }
 }
 
 declare module 'vue' {
     export type JSXComponent<Props = any> =
-      | { new (): ComponentPublicInstance<Props> }
-      | FunctionalComponent<Props>;
+        | { new(): ComponentPublicInstance<Props> }
+        | FunctionalComponent<Props>;
 }
 
 declare module '@vue/runtime-core' {

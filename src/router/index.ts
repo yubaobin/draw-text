@@ -1,5 +1,7 @@
-import { createRouter, createWebHashHistory, createWebHistory, RouteRecordRaw } from 'vue-router'
-const routes: Array<RouteRecordRaw> = [
+import type { App } from 'vue'
+import type { RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
+const routes: RouteRecordRaw[] = [
     {
         path: '/',
         redirect: '/draw-text'
@@ -36,11 +38,24 @@ const routes: Array<RouteRecordRaw> = [
     }
 ]
 
-const isHistory = import.meta.env['VITE_router'] === 'history'
 const bseUrl = (import.meta.env['VITE_publicpath'] || '') as string
-const router = createRouter({
-    history: isHistory ? createWebHistory(bseUrl) : createWebHashHistory(),
-    routes
-})
 
-export default router
+function createAppRouter () {
+    const isHistory = import.meta.env['VITE_router'] === 'history'
+    return createRouter({
+        history: isHistory ? createWebHistory(bseUrl) : createWebHashHistory(),
+        routes,
+        strict: true,
+        scrollBehavior: () => ({ left: 0, top: 0 })
+    })
+}
+
+export const router = createAppRouter()
+
+/**
+ * 注册
+ * @param app
+ */
+export function setupRouter (app: App<Element>) {
+    app.use(router)
+}

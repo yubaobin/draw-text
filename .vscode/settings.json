@@ -5,34 +5,7 @@
         "enable": true
     },
     "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true
+        "source.fixAll": "explicit"
     },
-    "eslint.format.enable": true,
-    "eslint.options": {
-        "overrideConfigFile": ".eslintrc.js",
-        "extensions": [
-            ".js",
-            ".vue",
-            ".ts",
-            ".tsx",
-            ".css",
-            ".scss",
-            ".less",
-            ".styl",
-            ".jsx",
-        ]
-    },
-    "vetur.format.defaultFormatterOptions": {
-        "js-beautify-html": {
-            "wrap_line_length": 1220,
-            "wrap_attributes": "force-expand-multiline",
-            "end_with_newline": false
-        },
-        "prettyhtml": {
-            "printWidth": 220,
-            "singleQuote": true,
-            "wrapAttributes": false,
-            "sortAttributes": false
-        }
-    }
+    "eslint.format.enable": true
 }

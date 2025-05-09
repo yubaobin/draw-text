@@ -1,54 +1,15 @@
 {
-	"compilerOptions": {
-		"baseUrl": ".",
-		"target": "esnext",
-		"module": "esnext",
-		"moduleResolution": "node",
-		"strict": true,
-		"jsx": "preserve",
-		"sourceMap": true,
-		"resolveJsonModule": true,
-		"esModuleInterop": true,
-		"lib": [
-			"esnext",
-			"dom"
-		],
-		"types": [
-			"vite/client"
-		],
-		"typeRoots": [
-			"./node_modules/@types/",
-			"./types"
-		],
-		"noImplicitAny": false,
-		"skipLibCheck": true,
-		"paths": {
-			"@/*": [
-				"src/*"
-			],
-			"components/*": [
-				"src/components/*"
-			],
-			"images/*": [
-				"src/assets/images/*"
-			],
-			"styles/*": [
-				"src/styles/*"
-			]
-		},
-	},
-	"include": [
-		"src/**/*.ts",
-		"src/**/*.d.ts",
-		"src/**/*.tsx",
-		"src/**/*.vue",
-		"build/**/*.ts",
-		"build/**/*.d.ts",
-		"types/**/*.d.ts",
-		"types/**/*.ts"
-	],
-	"exclude": [
-		"node_modules",
-		"**/*.js"
+	"files": [],
+	"references": [
+	  {
+		"path": "./tsconfig.node.json"
+	  },
+	  {
+		"path": "./tsconfig.app.json"
+	  },
+	  {
+		"path": "./tsconfig.vitest.json"
+	  }
 	]
-}
+  }
+  

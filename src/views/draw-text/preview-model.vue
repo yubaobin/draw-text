@@ -5,23 +5,23 @@
                 {{ tipsMessage }}
             </div>
             <div class="preivew-body bg-wrapper" :style="styles">
-                <svg-view v-if="isSvg" ref="svgViewRef"/>
-                <canvas-view v-else ref="canvasViewRef"/>
+                <svg-view v-if="isSvg" ref="svgViewRef" />
+                <canvas-view v-else ref="canvasViewRef" />
             </div>
             <div class="preivew-footer">
                 <div class="btn-close" @click="close">
-                    <svg-icon icon-name="close"/>
+                    <svg-icon icon-name="close" />
                 </div>
             </div>
         </div>
     </transition>
 </template>
 <script lang="ts">
-import { computed, defineComponent, nextTick, onBeforeUnmount, ref, Ref, unref, watch } from 'vue'
+import { computed, defineComponent, nextTick, onBeforeUnmount, ref, type Ref, unref, watch } from 'vue'
 import CanvasView from './canvas-view.vue'
 import SvgView from './svg-view.vue'
 import { imageApi } from '@/api/images'
-import { Toast } from 'vant'
+import { showToast } from 'vant'
 import CanvasStore from './canvas/store'
 import { FILL_COLOR, formatBg } from './canvas/util'
 function stop (e: any) {
@@ -89,16 +89,19 @@ export default defineComponent({
             const file = unref(this.file)
             const formData = new FormData()
             formData.append('file', file)
-            Toast({ duration: 0, type: 'loading', message: '文字识别中...' })
-            imageApi.analyze(formData).then(res => {
-                this.text = res.result ? res.result.slice(0, 1) : ''
-                Toast.clear()
-                this.startRun()
-            }).catch(() => {
-                Toast.clear()
-                this.text = ''
-                this.startRun()
-            })
+            const toast = showToast({ duration: 0, type: 'loading', message: '文字识别中...' })
+            imageApi
+                .analyze(formData)
+                .then((res) => {
+                    this.text = res.result ? res.result.slice(0, 1) : ''
+                    toast.close()
+                    this.startRun()
+                })
+                .catch(() => {
+                    toast.close()
+                    this.text = ''
+                    this.startRun()
+                })
         },
         startRun () {
             this.$nextTick(() => {
@@ -117,7 +120,6 @@ export default defineComponent({
         open (file: File) {
             this.file = file
             this.visible = true
-
         },
         close () {
             this.visible = false

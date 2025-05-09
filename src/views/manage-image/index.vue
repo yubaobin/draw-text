@@ -1,7 +1,11 @@
 <template>
     <div class="manage-view">
         <PullRefresh @refresh="onRefresh" v-model="refreshing">
-            <List v-model:loading="loadingMore" :finished="loadingFinished" :finished-text="finishedText" @load="loadMore">
+            <List
+                v-model:loading="loadingMore"
+                :finished="loadingFinished"
+                :finished-text="finishedText"
+                @load="loadMore">
                 <div class="img-list">
                     <template v-for="item in list" :key="item.id">
                         <SwipeCell>
@@ -11,7 +15,12 @@
                                 </div>
                             </div>
                             <template #right>
-                                <Button square text="删除" type="danger" @click="handleDelete(item.id)" class="delete-button" />
+                                <Button
+                                    square
+                                    text="删除"
+                                    type="danger"
+                                    @click="handleDelete(item.id)"
+                                    class="delete-button" />
                             </template>
                         </SwipeCell>
                     </template>
@@ -28,10 +37,10 @@
     </div>
 </template>
 <script lang="ts" setup>
+import type { PageQuery } from '#/axios'
 import { imageApi } from '@/api/images'
-import { PageQuery } from 'types/axios'
-import { PullRefresh, Button, Icon, List, Uploader, SwipeCell, Toast, Dialog } from 'vant'
-import { Ref, ref, reactive } from 'vue'
+import { PullRefresh, Button, Icon, List, Uploader, SwipeCell, showToast, Dialog } from 'vant'
+import { ref, reactive, type Ref } from 'vue'
 
 interface Query extends PageQuery {
     type: string
@@ -112,22 +121,25 @@ function handleDelete (id: string) {
     Dialog.confirm({
         title: '确认',
         message: '确认要删除吗？'
-    }).then(() => {
-        imageApi.deleteImage(id).then((res) => {
-            if (res.code === 0) {
-                onRefresh()
-            } else {
-                Toast({
-                    type: 'fail',
-                    message: res.message
-                })
-            }
+    })
+        .then(() => {
+            imageApi.deleteImage(id).then((res) => {
+                if (res.code === 0) {
+                    onRefresh()
+                } else {
+                    showToast({
+                        type: 'fail',
+                        message: res.message
+                    })
+                }
+            })
         })
-    }).catch(() => {})
+        .catch(() => {})
 }
 </script>
 <style lang="less" scoped>
 @bottom-height: 54px;
+
 .manage-view {
     position: absolute;
     top: 0;
@@ -138,22 +150,26 @@ function handleDelete (id: string) {
     box-sizing: border-box;
     overflow: auto;
     background-color: fade(@primary, 10);
+
     .img-list {
         .card-item {
             padding: 0 16px;
             margin-bottom: 4px;
+
             .card-inner {
                 border-radius: 16px;
                 overflow: hidden;
                 padding: 16px;
                 background-color: @white;
             }
+
             img {
                 width: 100%;
                 display: block;
             }
         }
     }
+
     .bottom-container {
         position: fixed;
         padding: 4px 16px;
@@ -162,6 +178,7 @@ function handleDelete (id: string) {
         width: 100%;
         box-sizing: border-box;
     }
+
     .delete-button {
         height: 100%;
     }

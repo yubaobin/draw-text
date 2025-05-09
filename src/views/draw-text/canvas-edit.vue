@@ -2,9 +2,10 @@
     <div class="canvas-wrapper bg-wrapper" ref="wrapperRef" :style="styles"></div>
 </template>
 <script lang="ts" setup>
+import type { Ref } from 'vue'
+import type { CanvasEventConfig } from '#/canvas'
 import { getRefPromise } from '@/utils'
-import { CanvasEventConfig } from 'types/canvas'
-import { computed, onBeforeUnmount, onMounted, ref, Ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import CanvasText from './canvas/canvas-text'
 import CanvasStore from './canvas/store'
 import { FILL_COLOR, formatBg } from './canvas/util'
@@ -21,7 +22,7 @@ onBeforeUnmount(() => {
     CanvasStore.action.reset()
 })
 onMounted(() => {
-    getRefPromise(wrapperRef).then(ref => {
+    getRefPromise(wrapperRef).then((ref) => {
         drawText = new CanvasText(ref, {
             on: {
                 start: (config: CanvasEventConfig) => {

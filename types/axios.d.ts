@@ -1,9 +1,8 @@
-import { IResponse } from './axios.d'
 /**
  * 接口返回
  */
-export interface IResponse<T> {
-    result: T = any;
+export interface IResponse<T = any> {
+    result: T;
     code: number;
     message: string;
 }
@@ -16,13 +15,9 @@ export interface PageQuery {
     size: number;
 }
 
-export interface IResPage {
+export interface IResPage<T = any> {
     current: number;
-    data: Array<any>;
+    data: Array<T>;
     size: number;
     total: number;
 }
-
-export interface Fetch {
-    (url: string, params?: any, optiosn?: any): Promise<IResponse<any>>
-} 

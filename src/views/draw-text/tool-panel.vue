@@ -1,13 +1,13 @@
 <template>
     <div class="tool-panel">
-        <yb-nav class="bottom-nav" :list="navList" @click="handleClick"/>
+        <yb-nav class="bottom-nav" :list="navList" @click="handleClick" />
     </div>
 </template>
 <script lang="ts" setup>
 import { imageApi } from '@/api/images'
-import YbNav, { NormalItem } from '@/components/yb-nav/index.vue'
+import YbNav from '@/components/yb-nav/index.vue'
 import CanvasStore from './canvas/store'
-import { Ref, ref } from 'vue'
+import { type Ref, ref } from 'vue'
 const navList: Ref<Array<NormalItem>> = ref([])
 
 getBgList()
@@ -23,5 +23,4 @@ function getBgList () {
 function handleClick (item: NormalItem) {
     CanvasStore.action.setBackground(item.fileurl || '')
 }
-
 </script>

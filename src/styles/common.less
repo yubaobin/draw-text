@@ -3,7 +3,14 @@ body {
     padding: 0;
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
-    font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+    font-family:
+        Helvetica Neue,
+        Helvetica,
+        PingFang SC,
+        Hiragino Sans GB,
+        Microsoft YaHei,
+        Arial,
+        sans-serif;
 }
 
 html,
@@ -44,26 +51,11 @@ body {
     }
 }
 
-.d-text {
-    display: inline-flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    vertical-align: middle;
-    position: relative;
-    text-decoration: none;
-    outline: none;
-    cursor: pointer;
-    padding: 0;
-    font-size: @font-size-md;
-    font-weight: 500;
-}
-
 .d-input {
     position: relative;
     font-size: 16px;
     &__inner {
-        -webkit-appearance: none;
+        appearance: none;
         background-color: #fff;
         background-image: none;
         border-radius: 4px;
@@ -87,7 +79,7 @@ body {
 }
 
 .van-overlay {
-    z-index: 999!important;
+    z-index: 999 !important;
 }
 
 @keyframes slideAnim {
@@ -114,5 +106,5 @@ body {
     right: 16px;
     color: @white;
     font-size: 24px;
-    animation: slideAnim .6s infinite ease-in;
+    animation: slideAnim 0.6s infinite ease-in;
 }

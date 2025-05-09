@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json.schemastore.org/prettierrc",
+  "semi": false,
+  "singleQuote": true,
+  "trailingComma": "none",
+  "endOfLine": "lf",
+  "tabWidth": 4,
+  "bracketSameLine": true,
+  "printWidth": 120,
+  "proseWrap": "preserve",
+  "overrides": [
+    {
+      "files": ".prettierrc",
+      "options": {
+        "parser": "json"
+      }
+    }
+  ]
+}

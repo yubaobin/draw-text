@@ -1,5 +1,5 @@
-import { IPoint } from 'types/canvas'
-import { SvgConfig } from 'types/svg'
+import type { IPoint } from '#/canvas'
+import type { SvgConfig } from '#/svg'
 import { CANVAS_ID, FONTSIZE, STROKE_COLOR } from './util'
 
 class SvgText {
@@ -11,7 +11,6 @@ class SvgText {
     fontSize: number = FONTSIZE
     space: number = FONTSIZE + 6
 
-    
     svgWidth: number = 0
     svgHeight: number = 0
 
@@ -44,9 +43,9 @@ class SvgText {
     }
     /**
      * 创建canvas
-     * @param config 
+     * @param config
      */
-     private _createdCanvas () {
+    private _createdCanvas () {
         if (!this.canvas) {
             let width = 0
             let height = 0
@@ -99,7 +98,7 @@ class SvgText {
     }
 
     private _initPath (points: Array<Array<IPoint>>) {
-        let allPath: Array<any> = []
+        const allPath: Array<any> = []
         if (this.canvas) {
             if (points.length) {
                 points.forEach((pointList: Array<IPoint>) => {
@@ -155,10 +154,12 @@ class SvgText {
                 'font-size': me.fontSize
             })
             curRoute += me.space
-            if (curRoute > distance) { // 下一个笔划
+            if (curRoute > distance) {
+                // 下一个笔划
                 curPathIndex++
                 curRoute = 0
-                if (curPathIndex > length - 1) { //画完，结束
+                if (curPathIndex > length - 1) {
+                    //画完，结束
                     me.stop()
                     if (typeof callback === 'function') {
                         callback.call(me)

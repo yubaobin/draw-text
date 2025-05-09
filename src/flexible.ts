@@ -1,4 +1,4 @@
-(function (win, lib) {
+;(function (win, lib) {
     const doc = win.document
     const docEl = doc.documentElement
     let metaEl = doc.querySelector('meta[name="viewport"]')
@@ -16,10 +16,10 @@
             dpr = Math.floor(1 / scale)
         }
     } else if (flexibleEl) {
-        let content = flexibleEl.getAttribute('content')
+        const content = flexibleEl.getAttribute('content')
         if (content) {
-            let initialDpr = content.match(/initial\-dpr=([\d\.]+)/)
-            let maximumDpr = content.match(/maximum\-dpr=([\d\.]+)/)
+            const initialDpr = content.match(/initial\-dpr=([\d\.]+)/)
+            const maximumDpr = content.match(/maximum\-dpr=([\d\.]+)/)
             if (initialDpr) {
                 dpr = parseFloat(initialDpr[1])
                 scale = parseFloat((1 / dpr).toFixed(2))
@@ -32,8 +32,8 @@
     }
 
     if (!dpr && !scale) {
-        let isIPhone = win.navigator.userAgent.match(/iphone/gi)
-        let devicePixelRatio = win.devicePixelRatio
+        const isIPhone = win.navigator.userAgent.match(/iphone/gi)
+        const devicePixelRatio = win.devicePixelRatio
         if (isIPhone) {
             // iOS下，对于2和3的屏，用2倍的方案，其余的用1倍方案
             if (devicePixelRatio >= 3 && (!dpr || dpr >= 3)) {
@@ -54,45 +54,59 @@
     if (!metaEl) {
         metaEl = doc.createElement('meta')
         metaEl.setAttribute('name', 'viewport')
-        metaEl.setAttribute('content', 'initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no')
+        metaEl.setAttribute(
+            'content',
+            'initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no'
+        )
         if (docEl.firstElementChild) {
             docEl.firstElementChild.appendChild(metaEl)
         } else {
-            let wrap = doc.createElement('div')
+            const wrap = doc.createElement('div')
             wrap.appendChild(metaEl)
             doc.write(wrap.innerHTML)
         }
     }
 
-    function refreshRem () {
+    function refreshRem() {
         let width = docEl.getBoundingClientRect().width
         if (width / dpr > 540) {
             width = 540 * dpr
         }
-        let rem = width / 10
+        const rem = width / 10
         docEl.style.fontSize = rem + 'px'
         flexible.rem = win.rem = rem
     }
 
-    win.addEventListener('resize', function () {
-        clearTimeout(tid)
-        tid = setTimeout(refreshRem, 300)
-    }, false)
-    win.addEventListener('pageshow', function (e) {
-        if (e.persisted) {
+    win.addEventListener(
+        'resize',
+        function () {
             clearTimeout(tid)
             tid = setTimeout(refreshRem, 300)
-        }
-    }, false)
+        },
+        false
+    )
+    win.addEventListener(
+        'pageshow',
+        function (e: any) {
+            if (e.persisted) {
+                clearTimeout(tid)
+                tid = setTimeout(refreshRem, 300)
+            }
+        },
+        false
+    )
 
     if (doc.readyState === 'complete') {
         doc.body.style.fontSize = 12 * dpr + 'px'
     } else {
-        doc.addEventListener('DOMContentLoaded', function () {
-            doc.body.style.fontSize = 12 * dpr + 'px'
-        }, false)
+        doc.addEventListener(
+            'DOMContentLoaded',
+            function () {
+                doc.body.style.fontSize = 12 * dpr + 'px'
+            },
+            false
+        )
     }
-
 
     refreshRem()
 
@@ -112,5 +126,4 @@
         }
         return val
     }
-
-})(window, window['lib'] || (window['lib'] = {}))
+})(window, window.lib || (window.lib = {}))

@@ -1,5 +1,14 @@
-import { CanvasConfig, CanvasSize, EventList, IPoint } from 'types/canvas'
-import { addEvent, calcDistance, calcLineWidth, CANVAS_ID, FONTSIZE, removeEvent, STROKE_COLOR, windowToCanvas } from './util'
+import type { CanvasConfig, CanvasSize, EventList, IPoint } from '#/canvas'
+import {
+    addEvent,
+    calcDistance,
+    calcLineWidth,
+    CANVAS_ID,
+    FONTSIZE,
+    removeEvent,
+    STROKE_COLOR,
+    windowToCanvas
+} from './util'
 const ua = navigator.userAgent.toLowerCase()
 export const isMobile = /mobile|phone|android|pad/.test(ua)
 
@@ -7,7 +16,7 @@ enum enumEvent {
     click = 'click',
     start = 'start',
     move = 'move',
-    end = 'end',
+    end = 'end'
 }
 
 const EVENT_LIST: Array<string> = [enumEvent.click, enumEvent.start, enumEvent.move, enumEvent.end]
@@ -67,7 +76,7 @@ class CanvasText {
     }
     /**
      * 创建canvas
-     * @param config 
+     * @param config
      */
     private _createdCanvas () {
         if (!this.canvas) {
@@ -77,7 +86,7 @@ class CanvasText {
             this.canvas.id = CANVAS_ID + '_' + Date.now()
             if (this.parentWrapper) {
                 const rect = this.parentWrapper.getBoundingClientRect()
-                width = rect.width 
+                width = rect.width
                 height = rect.height
                 this.parentWrapper.appendChild(this.canvas)
             } else {
@@ -130,36 +139,36 @@ class CanvasText {
 
     /**
      * 开始写
-     * @param point 
+     * @param point
      */
     private _beginStroke (point: IPoint) {
         this.isMouseDown = true
-        // 第一次用户画的坐标初始值  
+        // 第一次用户画的坐标初始值
         this.lastLoc = windowToCanvas(this.canvas, point.x, point.y)
-        // 获取首次点击鼠标 事件戳  
+        // 获取首次点击鼠标 事件戳
         this.lastTimestamp = new Date().getTime()
         this.recordPath = []
     }
 
     /**
      * 写的过程
-     * @param point 
-     * @returns 
+     * @param point
+     * @returns
      */
     private _moveStroke (point: IPoint) {
         if (!this.context) return
-        // 开始绘制直线  
-        let curLoc = windowToCanvas(this.canvas, point.x, point.y)
-        // 路程  
-        let s = calcDistance(curLoc, this.lastLoc)
-        // 结束时间  
-        let curTimestamp = new Date().getTime()
-        // 时间差  
-        let t = curTimestamp - this.lastTimestamp
-        // 绘制线条粗细  
-        let lineWidth = calcLineWidth(t, s, this.lastLineWidth)
+        // 开始绘制直线
+        const curLoc = windowToCanvas(this.canvas, point.x, point.y)
+        // 路程
+        const s = calcDistance(curLoc, this.lastLoc)
+        // 结束时间
+        const curTimestamp = new Date().getTime()
+        // 时间差
+        const t = curTimestamp - this.lastTimestamp
+        // 绘制线条粗细
+        const lineWidth = calcLineWidth(t, s, this.lastLineWidth)
 
-        // 绘制  
+        // 绘制
         this.context.beginPath()
         this.context.moveTo(this.lastLoc.x, this.lastLoc.y)
         this.context.lineTo(curLoc.x, curLoc.y)
@@ -168,9 +177,9 @@ class CanvasText {
         this.context.lineCap = 'round'
         this.context.lineJoin = 'round'
         this.context.stroke()
-        // 给lastLoc赋值维护  
+        // 给lastLoc赋值维护
         this.lastLoc = curLoc
-        // 时间更新  
+        // 时间更新
         this.lastTimestamp = curTimestamp
         this.lastLineWidth = lineWidth
         this.recordPath.push(curLoc)
@@ -193,7 +202,7 @@ class CanvasText {
     private _touchstart (e: MouseEvent | TouchEvent) {
         e.preventDefault()
         this.isOpr = true
-        let point: IPoint = { x: 0, y: 0 }
+        const point: IPoint = { x: 0, y: 0 }
         if (e instanceof TouchEvent) {
             const touch = e.touches[0] // 获取第一个触点
             point.x = touch.pageX
@@ -221,7 +230,7 @@ class CanvasText {
     private _touchmove (e: MouseEvent | TouchEvent) {
         e.preventDefault()
         if (this.isMouseDown) {
-            let point: IPoint = { x: 0, y: 0 }
+            const point: IPoint = { x: 0, y: 0 }
             if (e instanceof TouchEvent) {
                 const touch = e.touches[0] // 获取第一个触点
                 point.x = touch.pageX
@@ -256,7 +265,7 @@ class CanvasText {
         if (config && config.on) {
             Object.keys(config.on).forEach((key: any) => {
                 if (EVENT_LIST.includes(key) && config.on) {
-                    this.eventBus[key] = config.on[key]
+                    this.eventBus[key] = (config.on as any)[key]
                 }
             })
         }
@@ -269,9 +278,9 @@ class CanvasText {
 
     private convertBase64UrlToBlob (urlData: string): Blob {
         const data = urlData.split(',')
-        let bytes = window.atob(data[1])
-        let ab = new ArrayBuffer(bytes.length)
-        let ia = new Uint8Array(ab)
+        const bytes = window.atob(data[1])
+        const ab = new ArrayBuffer(bytes.length)
+        const ia = new Uint8Array(ab)
         for (let i = 0; i < bytes.length; i++) {
             ia[i] = bytes.charCodeAt(i)
         }
@@ -343,18 +352,18 @@ class CanvasText {
 
     draw (point: IPoint) {
         if (!this.context) return
-        // 开始绘制直线  
-        let curLoc = windowToCanvas(this.canvas, point.x, point.y)
-        // 路程  
-        let s = calcDistance(curLoc, this.lastLoc)
-        // 结束时间  
-        let curTimestamp = new Date().getTime()
-        // 时间差  
-        let t = curTimestamp - this.lastTimestamp
-        // 绘制线条粗细  
-        let lineWidth = calcLineWidth(t, s, this.lastLineWidth)
+        // 开始绘制直线
+        const curLoc = windowToCanvas(this.canvas, point.x, point.y)
+        // 路程
+        const s = calcDistance(curLoc, this.lastLoc)
+        // 结束时间
+        const curTimestamp = new Date().getTime()
+        // 时间差
+        const t = curTimestamp - this.lastTimestamp
+        // 绘制线条粗细
+        const lineWidth = calcLineWidth(t, s, this.lastLineWidth)
 
-        // 绘制  
+        // 绘制
         this.context.beginPath()
         this.context.moveTo(this.lastLoc.x, this.lastLoc.y)
         this.context.lineTo(curLoc.x, curLoc.y)
@@ -363,9 +372,9 @@ class CanvasText {
         this.context.lineCap = 'round'
         this.context.lineJoin = 'round'
         this.context.stroke()
-        // 给lastLoc赋值维护  
+        // 给lastLoc赋值维护
         this.lastLoc = curLoc
-        // 时间更新  
+        // 时间更新
         this.lastTimestamp = curTimestamp
         this.lastLineWidth = lineWidth
         this.recordPath.push(curLoc)
@@ -373,10 +382,10 @@ class CanvasText {
 
     drawWithText (point: IPoint, text?: string) {
         if (!this.context) return
-        // 开始绘制直线  
-        let curLoc = windowToCanvas(this.canvas, point.x, point.y)
-        // 路程  
-        let s = calcDistance(curLoc, this.lastLoc)
+        // 开始绘制直线
+        const curLoc = windowToCanvas(this.canvas, point.x, point.y)
+        // 路程
+        const s = calcDistance(curLoc, this.lastLoc)
         this.lastLoc = curLoc
         if (s > 8) {
             this.context.fillText(text || '', curLoc.x, curLoc.y)
@@ -388,7 +397,7 @@ class CanvasText {
         const me = this
         let row: number = 0
         let col: number = 0
-        let rowLen: number = points.length
+        const rowLen: number = points.length
         let colLen: number = rowLen ? points[row].length : 0
         this.animRun = true
         const drawFun = text ? this.drawWithText.bind(this) : this.draw.bind(this)
@@ -403,10 +412,12 @@ class CanvasText {
             const curPoint = points[row][col]
             drawFun(curPoint, text)
             col++
-            if (col > colLen - 1) { // 下一个笔划
+            if (col > colLen - 1) {
+                // 下一个笔划
                 row++
                 me._closePath()
-                if (row > rowLen - 1) { // 画完，结束
+                if (row > rowLen - 1) {
+                    // 画完，结束
                     me.stop()
                     me._restoreCanvas()
                     if (typeof callback == 'function') {
@@ -425,7 +436,7 @@ class CanvasText {
         }
         if (rowLen > 0 && colLen > 0) {
             const firstPoint = points[row][col]
-            this.lastLoc = windowToCanvas(this.canvas,firstPoint.x, firstPoint.y)
+            this.lastLoc = windowToCanvas(this.canvas, firstPoint.x, firstPoint.y)
             anim()
         }
     }
@@ -442,12 +453,10 @@ class CanvasText {
         if (this.canvas) {
             const urlData: string = this.toImage()
             const blob: Blob = this.convertBase64UrlToBlob(urlData)
-            const file = new File([blob], `${new Date().getTime()}.png` )
+            const file = new File([blob], `${new Date().getTime()}.png`)
             return file
         }
     }
-
-    
 
     stop () {
         this.animRun = false

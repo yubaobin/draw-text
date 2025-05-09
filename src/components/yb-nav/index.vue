@@ -3,7 +3,7 @@
         <div class="ybnav-wrapper">
             <div class="ybnav-item" @click="clearBg">
                 <div class="nav-icon">
-                    <svg-icon :icon-name="bgIcon"/>
+                    <svg-icon :icon-name="bgIcon" />
                 </div>
                 <div class="nav-name">背景</div>
             </div>
@@ -12,7 +12,7 @@
                     <img :src="item.cover" />
                 </div>
                 <div class="nav-icon" v-else>
-                    <svg-icon :icon-name="item.icon"/>
+                    <svg-icon :icon-name="item.icon" />
                 </div>
                 <div class="nav-name" v-if="item.name">{{ item.name }}</div>
             </div>
@@ -20,18 +20,14 @@
     </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent, onBeforeUnmount, onMounted, onUpdated, PropType, Ref, ref } from 'vue'
+import type { PropType, Ref } from 'vue'
+import { computed, defineComponent, onBeforeUnmount, onMounted, onUpdated, ref } from 'vue'
 import YbNav from 'ybnav'
 import CanvasStore from '@/views/draw-text/canvas/store'
 import { FILL_COLOR } from '@/views/draw-text/canvas/util'
+
 let ybNav: YbNav | null
-export interface NormalItem {
-    icon?: string;
-    name?: string;
-    cover?: string;
-    fileurl?: string;
-    code?: string;
-}
+
 export default defineComponent({
     name: 'YbNav',
     emits: ['click'],
@@ -60,7 +56,7 @@ export default defineComponent({
                 ybNav = new YbNav(navRef.value, {})
             }
         })
-        onUpdated (() => {
+        onUpdated(() => {
             if (ybNav) {
                 ybNav.refresh()
             }

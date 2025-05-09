@@ -9,11 +9,11 @@
                 <canvas-edit ref="canvasEditRef" />
             </div>
             <div class="botton-container">
-                <tool-panel/>
+                <tool-panel />
             </div>
         </div>
-        <preview-model ref="previewRef"/>
-        <publish-model ref="publishModelRef"/>
+        <preview-model ref="previewRef" />
+        <publish-model ref="publishModelRef" />
     </div>
 </template>
 <script lang="ts" setup>
@@ -22,10 +22,9 @@ import CanvasEdit from './canvas-edit.vue'
 import ToolPanel from './tool-panel.vue'
 import PreviewModel from './preview-model.vue'
 import PublishModel from './publish-model.vue'
-import { computed, Ref, ref, unref } from 'vue'
+import { computed, type Ref, ref, unref } from 'vue'
 import CanvasStore from './canvas/store'
-import { Toast } from 'vant'
-import store from '@/store/index'
+import { showToast } from 'vant'
 
 const previewRef: Ref<any> = ref(null)
 const publishModelRef: Ref<any> = ref(null)
@@ -38,7 +37,7 @@ function handleClick (type: string) {
                 previewRef.value.open(canvasEditRef.value.getFile())
             }
         } else {
-            Toast({ message: '写个字试下先' })
+            showToast({ message: '写个字试下先' })
         }
     } else if (type === 'clear') {
         const ref: any = unref(canvasEditRef)
@@ -51,7 +50,7 @@ function handleClick (type: string) {
                 publishModelRef.value.open(canvasEditRef.value.getFile())
             }
         } else {
-            Toast({ message: '写个字试下先' })
+            showToast({ message: '写个字试下先' })
         }
     }
 }

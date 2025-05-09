@@ -12,7 +12,6 @@
     </div>
 </template>
 <script lang="ts" setup>
-import { Icon, Popover } from 'vant'
 import { getCurrentInstance, ref } from 'vue'
 defineEmits(['click'])
 

@@ -4,7 +4,7 @@
  * @property height
  * @property on
  */
- export interface SvgConfig {
+export interface SvgConfig {
     width?: number;
     height?: number;
 }
