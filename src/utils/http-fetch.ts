@@ -6,6 +6,7 @@ import axios from 'axios'
 import qs from 'qs'
 import { deleteNullByEquals } from '@/utils/index'
 import config from '@/config'
+import { getToken } from './token'
 
 const instance = axios.create({
     method: 'post',
@@ -28,7 +29,7 @@ instance.interceptors.response.use(
 // 拦截请求
 instance.interceptors.request.use(
     function (req) {
-        req.headers.token = Date.now()
+        req.headers.token = getToken()
         return req
     },
     function (err) {

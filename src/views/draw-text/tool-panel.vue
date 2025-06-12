@@ -8,14 +8,17 @@ import { imageApi } from '@/api/images'
 import YbNav from '@/components/yb-nav/index.vue'
 import CanvasStore from './canvas/store'
 import { type Ref, ref } from 'vue'
+import { getToken } from '@/utils/token'
+
 const navList: Ref<Array<NormalItem>> = ref([])
 
 getBgList()
 
 function getBgList () {
+    const token = getToken()
     imageApi.getImageListByList().then((res) => {
         navList.value = (res.result || []).map((item: NormalItem) => {
-            return { cover: item.cover + '?token=123', fileurl: item.fileurl }
+            return { cover: item.cover + '?token=' + token, fileurl: item.fileurl }
         })
     })
 }

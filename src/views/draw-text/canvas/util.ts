@@ -1,4 +1,5 @@
 import type { IPoint } from '#/canvas'
+import { getToken } from '@/utils/token'
 
 export const CANVAS_ID = 'draw-wrapper-id'
 export const maxV = 10
@@ -105,6 +106,8 @@ export function calcLineWidth (t: number, s: number, lastLineWidth: number) {
  * @returns
  */
 export function formatBg (bg: string): any {
+    const token = getToken()
+
     const span = document.createElement('span')
     span.style.color = bg
     if (span.style.color) {
@@ -113,7 +116,7 @@ export function formatBg (bg: string): any {
         }
     } else {
         return {
-            'background-image': `url(${bg}?token=123)`
+            'background-image': `url(${bg}?token=${token})`
         }
     }
 }
