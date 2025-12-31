@@ -1,11 +1,11 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
   "include": [
+    "build/**/*",
     "env.d.ts",
     "src/**/*",
     "src/**/*.vue",
-    "types/*",
-    "public/iconfont"
+    "types/*"
   ],
   "exclude": [
     "src/**/__tests__/*"

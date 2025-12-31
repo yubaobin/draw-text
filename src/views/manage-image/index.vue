@@ -160,7 +160,7 @@ function handleDelete (id: string) {
                 border-radius: 16px;
                 overflow: hidden;
                 padding: 16px;
-                background-color: @white;
+                background-color: var(--van-white);
             }
 
             img {
